@@ -1,15 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Movement : MonoBehaviour {
+public class Movement : MonoBehaviour
+{
+	private PlayerStateController _controller;
+    private Rigidbody2D _rb;
 
-	// Use this for initialization
-	void Start () {
-	
+	void Start()
+	{
+		_controller = this.GetComponent<PlayerStateController>();
+        _rb = this.GetComponent<Rigidbody2D>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+    void FixedUpdate()
+    {
+        if (_controller.InState(Constants.STATE_MOVE_LEFT))
+        {
+            _rb.AddForce(transform.right * -Constants.BASE_MOVE_SPEED);
+        }
+        else if (_controller.InState(Constants.STATE_MOVE_RIGHT))
+        {
+            _rb.AddForce(transform.right * Constants.BASE_MOVE_SPEED);
+        }
+		else if (_controller.InState(Constants.STATE_JUMP))
+        {
+            _rb.AddForce(transform.up * Constants.BASE_JUMP_SPEED);
+        }
+
 	}
 }

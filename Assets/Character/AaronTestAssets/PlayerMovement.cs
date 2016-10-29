@@ -6,9 +6,9 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 
 
-    public float move_speed = 2f;
+    public float move_speed = 3f;
     public float jump_power = 8f;
-    public float roll_speed = 4f;
+    public float roll_speed = 5f;
     public float roll_time = 0.5f;
 
 
@@ -35,13 +35,13 @@ public class PlayerMovement : MonoBehaviour {
         if (!animator.GetBool("Rolling"))
         {
 
-            float horizontal = (Input.GetAxis("Horizontal"));
+            float horizontal = Input.GetAxis("Horizontal");
 
             //position based
-            transform.position += new Vector3(horizontal, 0, 0) * move_speed * Time.deltaTime;
+           // transform.position += new Vector3(horizontal, 0, 0) * move_speed * Time.deltaTime;
 
             //add force
-            //rigidbody.AddForce(new Vector2(horizontal * speed, 0), ForceMode2D.Force);
+            rigidbody.AddForce(Vector2.right * horizontal * move_speed, ForceMode2D.Impulse);
 
                 if (animator.GetBool("OnGround"))
                 {
@@ -56,11 +56,11 @@ public class PlayerMovement : MonoBehaviour {
                         animator.Play("Idle");
                     }
 
-                    if (Input.GetKeyDown("space"))
+                    if (Input.GetKeyDown(KeyCode.Space))
                     {
                         animator.SetBool("OnGround", false);
                         animator.Play("Jump");
-                        rigidbody.AddForce(new Vector2(0, jump_power), ForceMode2D.Impulse);
+                        rigidbody.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
                     }
 
                     if (Input.GetKeyDown(KeyCode.X))

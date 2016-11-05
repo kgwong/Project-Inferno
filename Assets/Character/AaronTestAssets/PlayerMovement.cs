@@ -13,37 +13,40 @@ public class PlayerMovement : MonoBehaviour {
 
 
     private Animator animator;
-    private Rigidbody2D rigidbody;
+    private Rigidbody2D rb;
     private int directionFacing = 1;
     //private ArrayList lockStates = new ArrayList();
     private AnimatorStateInfo stateInfo;
     private Vector3 scale;
     private float timer;
+    private BoxCollider2D bc;
+    private SpriteRenderer sr;
+    private float heightDifference = (float)0.65;
 	
 
 	void Start () {
 
+
         animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
        // lockStates.Add();
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         scale = transform.localScale;
-
+        bc = GetComponent<BoxCollider2D>();
+        sr = GetComponent<SpriteRenderer>();
     }
 	
 	void FixedUpdate () {
+        bc.size = sr.bounds.size;
         if (!animator.GetBool("Rolling"))
         {
-
+            //horizontal movement
             float horizontal = Input.GetAxis("Horizontal");
+            rb.AddForce(Vector2.right * horizontal * move_speed, ForceMode2D.Impulse);
 
-            //position based
-           // transform.position += new Vector3(horizontal, 0, 0) * move_speed * Time.deltaTime;
 
-            //add force
-            rigidbody.AddForce(Vector2.right * horizontal * move_speed, ForceMode2D.Impulse);
 
-                if (animator.GetBool("OnGround"))
+            if (animator.GetBool("OnGround"))
                 {
                     if (horizontal != 0)
                     {
@@ -60,10 +63,13 @@ public class PlayerMovement : MonoBehaviour {
                     {
                         animator.SetBool("OnGround", false);
                         animator.Play("Jump");
-                        rigidbody.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
-                    }
+                        rb.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
+                        //bc.size += Vector2.up * heightDifference;
 
-                    if (Input.GetKeyDown(KeyCode.X))
+
+                }
+
+                if (Input.GetKeyDown(KeyCode.X))
                     {
                         animator.SetBool("OnGround", false);
                         animator.SetBool("Rolling", true);
@@ -75,13 +81,11 @@ public class PlayerMovement : MonoBehaviour {
         else 
         {
             float timePassed = Time.time-timer;
-            print(timePassed);
             if (timePassed < roll_time)
             {
                 animator.Play("Roll");
                 Flip(directionFacing);
-                rigidbody.AddForce(new Vector2(roll_speed * directionFacing, 0), ForceMode2D.Impulse);
-                print("adding force");
+                rb.AddForce(new Vector2(roll_speed * directionFacing, 0), ForceMode2D.Impulse);
             }
             else
             {
@@ -106,11 +110,33 @@ public class PlayerMovement : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+
+        //(queue input)
         //maybe add a bit of space above the ground to be considered OnGround
         //attempting to jump slightly before you actually hit the ground and failing feels bad
-        if(coll.gameObject.tag == "Platform")
+        if (coll.gameObject.tag == "Platform")
         {
-            animator.SetBool("OnGround", true);
+            Vector3 contactPoint = coll.contacts[0].point;
+            float bottomPlayer = transform.position.y - (sr.bounds.size.y / 2) + (float)0.01;
+           print("bottom of player: " + bottomPlayer);
+            //print("contact point" + contactPoint);
+
+            if (contactPoint.y < bottomPlayer)
+            {
+                print(bc.transform.position);
+                print("HIT GROUND");
+                animator.SetBool("OnGround", true);
+            }
         }
     }
+
+    void OnCollisionExit2D(Collision2D coll)
+    {
+        if(coll.gameObject.tag == "Platform")
+        {
+            animator.SetBool("OnGround", false);
+        }
+    }
+
+    
 }

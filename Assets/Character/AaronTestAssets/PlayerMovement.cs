@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour {
     private SpriteRenderer sr;
     private float heightDifference = (float)0.65;
     private float groundDistance;
+    private int groundLayer;
+    private RaycastHit2D downRay;
 
     void Start() {
 
@@ -34,13 +36,16 @@ public class PlayerMovement : MonoBehaviour {
         bc = GetComponent<BoxCollider2D>();
         sr = GetComponent<SpriteRenderer>();
         groundDistance = 0.25f;
+        groundLayer = 1 << 8;
+
 
     }
 
     void FixedUpdate() {
 
+        downRay = Physics2D.Raycast(sr.bounds.center + Vector3.down * sr.bounds.size.y / 2, Vector3.down, groundDistance, groundLayer);
         bc.size = sr.bounds.size;
-        checkBottom("");
+        checkBottom();
         if (!animator.GetBool("Rolling"))
         {
             //horizontal movement
@@ -62,7 +67,7 @@ public class PlayerMovement : MonoBehaviour {
                     animator.Play("Idle");
                 }
 
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) && downRay.distance < 0.019)
                 {
                     animator.SetBool("OnGround", false);
                     animator.Play("Jump");
@@ -100,16 +105,16 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     //use raycasting to determine OnGround
-    //jump "fails" if pressed during window where you're not touching the ground yet but already "OnGround", but input queue should fix this
-    void checkBottom(string check)
+    //jump "fails" if pressed during the window when you're not touching the ground yet but already "OnGround",
+    //but input queue should fix this
+    void checkBottom()
     {
-
-        int groundLayer = 1 << 8;
-        RaycastHit2D downRay = Physics2D.Raycast(transform.position + Vector3.down * sr.bounds.size.y/2, Vector3.down, groundDistance, groundLayer);
+        print(downRay.distance);
         if (rb.velocity.y < 0 && downRay.collider != null)
         {
             animator.SetBool("OnGround", true);
         }
+        
     }
 
     void Flip(float horizontal)

@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour {
     public float move_speed = 3f;
     public float jump_power = 8f;
     public float roll_speed = 5f;
-    public float roll_time = 0.5f;
+    public float roll_time = 2f;
 
 
     private Animator animator;
@@ -22,22 +22,25 @@ public class PlayerMovement : MonoBehaviour {
     private BoxCollider2D bc;
     private SpriteRenderer sr;
     private float heightDifference = (float)0.65;
-	
+    private float groundDistance;
 
-	void Start () {
+    void Start() {
 
 
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-       // lockStates.Add();
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         scale = transform.localScale;
         bc = GetComponent<BoxCollider2D>();
         sr = GetComponent<SpriteRenderer>();
+        groundDistance = 0.25f;
+
     }
-	
-	void FixedUpdate () {
+
+    void FixedUpdate() {
+
         bc.size = sr.bounds.size;
+        checkBottom("");
         if (!animator.GetBool("Rolling"))
         {
             //horizontal movement
@@ -47,40 +50,41 @@ public class PlayerMovement : MonoBehaviour {
 
 
             if (animator.GetBool("OnGround"))
+            {
+                if (horizontal != 0)
                 {
-                    if (horizontal != 0)
-                    {
-                        animator.Play("Walk");
-                        Flip(horizontal);
-                    }
+                    animator.Play("Walk");
+                    Flip(horizontal);
+                }
 
-                    else
-                    {
-                        animator.Play("Idle");
-                    }
+                else
+                {
+                    animator.Play("Idle");
+                }
 
-                    if (Input.GetKeyDown(KeyCode.Space))
-                    {
-                        animator.SetBool("OnGround", false);
-                        animator.Play("Jump");
-                        rb.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
-                        //bc.size += Vector2.up * heightDifference;
-
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    animator.SetBool("OnGround", false);
+                    animator.Play("Jump");
+                    rb.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
 
                 }
 
                 if (Input.GetKeyDown(KeyCode.X))
-                    {
-                        animator.SetBool("OnGround", false);
-                        animator.SetBool("Rolling", true);
-                        timer = Time.time;
-                    }
-
+                {
+                    animator.SetBool("OnGround", false);
+                    animator.SetBool("Rolling", true);
+                    timer = Time.time;
                 }
+
+
+
             }
-        else 
+
+        }
+        else
         {
-            float timePassed = Time.time-timer;
+            float timePassed = Time.time - timer;
             if (timePassed < roll_time)
             {
                 animator.Play("Roll");
@@ -92,6 +96,19 @@ public class PlayerMovement : MonoBehaviour {
                 animator.SetBool("OnGround", true);
                 animator.SetBool("Rolling", false);
             }
+        }
+    }
+
+    //use raycasting to determine OnGround
+    //jump "fails" if pressed during window where you're not touching the ground yet but already "OnGround", but input queue should fix this
+    void checkBottom(string check)
+    {
+
+        int groundLayer = 1 << 8;
+        RaycastHit2D downRay = Physics2D.Raycast(transform.position + Vector3.down * sr.bounds.size.y/2, Vector3.down, groundDistance, groundLayer);
+        if (rb.velocity.y < 0 && downRay.collider != null)
+        {
+            animator.SetBool("OnGround", true);
         }
     }
 
@@ -108,27 +125,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 
-    void OnCollisionEnter2D(Collision2D coll)
-    {
 
-        //(queue input)
-        //maybe add a bit of space above the ground to be considered OnGround
-        //attempting to jump slightly before you actually hit the ground and failing feels bad
-        if (coll.gameObject.tag == "Platform")
-        {
-            Vector3 contactPoint = coll.contacts[0].point;
-            float bottomPlayer = transform.position.y - (sr.bounds.size.y / 2) + (float)0.01;
-           print("bottom of player: " + bottomPlayer);
-            //print("contact point" + contactPoint);
-
-            if (contactPoint.y < bottomPlayer)
-            {
-                print(bc.transform.position);
-                print("HIT GROUND");
-                animator.SetBool("OnGround", true);
-            }
-        }
-    }
 
     void OnCollisionExit2D(Collision2D coll)
     {

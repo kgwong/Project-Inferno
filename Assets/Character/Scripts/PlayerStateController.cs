@@ -2,59 +2,64 @@
 
 public class PlayerStateController : MonoBehaviour
 {
-	public Animator animator;
-
+	private Animator _animator;
 	private SpriteRenderer _spriteRenderer;
 	private bool _facingRight;
-	float _distToGround;
+	private float _distToGround;
+
+	public int GetState()
+	{
+		return _animator.GetInteger("state");
+	}
 
 	void Start ()
 	{
-		animator = this.GetComponent<Animator>();
-		animator.SetInteger("state", Constants.STATE_IDLE);
+		_animator = GetComponent<Animator>();
+		_spriteRenderer = GetComponent<SpriteRenderer>();
+		_distToGround = GetComponent<Collider2D>().bounds.extents.y;
+		_animator.SetInteger("state", Constants.STATE_IDLE);
 		_facingRight = true;
-		_spriteRenderer = this.GetComponent<SpriteRenderer>();
-		_distToGround = this.GetComponent<Collider2D>().bounds.extents.y;
 	}
 
 	void Update()
 	{
-		if (InState(Constants.STATE_IDLE))
+		switch (GetState())
 		{
-			IdleStateUpdate();
-		}
-		else if (InState(Constants.STATE_MID_ATTACK))
-		{
-			MidAttackStateUpdate();
-		}
-		else if (InState(Constants.STATE_MOVE_LEFT) || InState(Constants.STATE_MOVE_RIGHT))
-		{
-			MoveStateUpdate();
-		}
-		else if (InState(Constants.STATE_ROLL))
-		{
-			RollStateUpdate();
-		}
-		else if (InState(Constants.STATE_JUMP))
-		{
-			JumpStateUpdate();
-		}
-		else if (FinishedCurrentAnimation())
-		{
-			animator.SetInteger("state", Constants.STATE_IDLE);
+			case Constants.STATE_IDLE:
+				IdleStateUpdate();
+				break;
+			case Constants.STATE_HIGH_ATTACK:
+				HighAttackStateUpdate();
+				break;
+			case Constants.STATE_MID_ATTACK:
+				MidAttackStateUpdate();
+				break;
+			case Constants.STATE_LOW_ATTACK:
+				LowAttackStateUpdate();
+				break;
+			case Constants.STATE_MOVE_LEFT:
+			case Constants.STATE_MOVE_RIGHT:
+				MoveStateUpdate();
+				break;
+			default:
+				// always let next animation play for a frame before switching state
+				// "Has Exit Time" will determine if we immediately switch or not
+				if (NextAnimationStarted())
+					ChangeState(Constants.STATE_IDLE);
+				break;
 		}
 	}
 
-	public bool InState(int state)
+	bool InState(int state)
 	{
-		return animator.GetInteger("state") == state;
+		return _animator.GetInteger("state") == state;
 	}
 
 	void ChangeState(int newState)
 	{
 		if (!InState(newState))
 		{
-			animator.SetInteger("state", newState);
+			_animator.SetInteger("state", newState);
 		}
 	}
 
@@ -100,33 +105,41 @@ public class PlayerStateController : MonoBehaviour
 		{
 			// default face right
 			ChangeState(Constants.STATE_MOVE_LEFT);
-			_spriteRenderer.flipX = true;
-			_facingRight = false;
+			FlipSpriteLeft();
 		}
 		else if (PressedMoveRight())
 		{
 			// default face right
 			ChangeState(Constants.STATE_MOVE_RIGHT);
-			_spriteRenderer.flipX = false;
-			_facingRight = true;
+			FlipSpriteRight();
 		}
 		else if (PressedMidAttack())
 		{
 			ChangeState(Constants.STATE_MID_ATTACK);
-			_spriteRenderer.flipX = (_facingRight) ? false : true;
+			FlipSpriteCorrectDirection();
 		}
+	}
+
+	void HighAttackStateUpdate()
+	{
+
 	}
 
 	void MidAttackStateUpdate()
 	{
-		if (!FinishedCurrentAnimation() && PressedMidAttack())
+		if (PressedMidAttack())
 		{
 			ChangeState(Constants.STATE_MID_COMBO);
 		}
 		else if (FinishedCurrentAnimation())
-        {
-            ChangeState(Constants.STATE_IDLE);
-        }
+		{
+			ChangeState(Constants.STATE_IDLE);
+		}
+	}
+
+	void LowAttackStateUpdate()
+	{
+
 	}
 
 	void MoveStateUpdate()
@@ -135,34 +148,85 @@ public class PlayerStateController : MonoBehaviour
 		{
 			ChangeState(Constants.STATE_IDLE);
 		}
-
-		if (_facingRight && !Input.GetKey(KeyCode.RightArrow))
+		else if (_facingRight && !Input.GetKey(KeyCode.RightArrow))
 		{
 			ChangeState(Constants.STATE_IDLE);
 		}
-	}
-
-	void RollStateUpdate()
-	{
-		ChangeState(Constants.STATE_IDLE);
-	}
-
-	void JumpStateUpdate()
-	{
-		ChangeState(Constants.STATE_IDLE);
+		else if (PressedMidAttack())
+		{
+			ChangeState(Constants.STATE_MID_ATTACK);
+		}
+		else if (PressedRoll())
+		{
+			ChangeState(Constants.STATE_ROLL);
+		}
 	}
 
 	bool IsGrounded()
 	{
 		float pad = .1f;
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, _distToGround + pad);
-		bool result = hit.collider != null;
-		return result;
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _distToGround + pad);
+		return hit.collider != null;
+	}
+
+	void FlipSpriteRight()
+	{
+		_spriteRenderer.flipX = false;
+		_facingRight = true;
+	}
+
+	void FlipSpriteLeft()
+	{
+		_spriteRenderer.flipX = true;
+		_facingRight = false;
+	}
+
+	void FlipSpriteCorrectDirection()
+	{
+		_spriteRenderer.flipX = !_facingRight;
 	}
 
 	bool FinishedCurrentAnimation()
-    {
-        // 1.15 = played once before and am 15% through this loop
-        return (int)animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
-    }
+	{
+		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f && !_animator.IsInTransition(0);
+	}
+
+	bool NextAnimationStarted()
+	{
+		bool playingNextAnimation = (GetStateHash(GetState()) == GetCurrentStateHash());
+        float timePassed = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+		return playingNextAnimation && timePassed > 0;
+	}
+
+	int GetStateHash(int state)
+	{
+		switch(state)
+		{
+			// Animator.fullPathHash needs the "Base Layer." in .StringToHash call
+			case Constants.STATE_IDLE:
+				return Animator.StringToHash("Base Layer.TestIdle");
+			case Constants.STATE_MOVE_LEFT:
+				return Animator.StringToHash("Base Layer.TestMoveLeft");
+			case Constants.STATE_MOVE_RIGHT:
+				return Animator.StringToHash("Base Layer.TestMoveRight");
+			case Constants.STATE_ROLL:
+				return Animator.StringToHash("Base Layer.TestRoll");
+			case Constants.STATE_MID_ATTACK:
+				return Animator.StringToHash("Base Layer.TestMidAttack");
+			case Constants.STATE_MID_COMBO:
+				return Animator.StringToHash("Base Layer.TestMidAttackCombo");
+			case Constants.STATE_JUMP:
+				return Animator.StringToHash("Base Layer.TestJump");
+			default:
+				// Eventually return the right hash for all states in Constants
+				// But need this for compiler's sake
+                Debug.Log("STATE \"" + state + "\" IS NOT VALID");
+				return 0;
+		}
+	}
+
+	int GetCurrentStateHash()
+	{
+		return _animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+	}
 }

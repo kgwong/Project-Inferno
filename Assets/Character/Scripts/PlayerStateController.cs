@@ -5,7 +5,6 @@ public class PlayerStateController : MonoBehaviour
 	private Animator _animator;
 	private SpriteRenderer _spriteRenderer;
 	private bool _facingRight;
-	private float _distToGround;
 
 	public int GetState()
 	{
@@ -16,7 +15,6 @@ public class PlayerStateController : MonoBehaviour
 	{
 		_animator = GetComponent<Animator>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
-		_distToGround = GetComponent<Collider2D>().bounds.extents.y;
 		_animator.SetInteger("state", Constants.STATE_IDLE);
 		_facingRight = true;
 	}
@@ -88,11 +86,6 @@ public class PlayerStateController : MonoBehaviour
 
 	void IdleStateUpdate()
 	{
-		if (!IsGrounded())
-		{
-			return;
-		}
-
 		if (PressedRoll())
 		{
 			ChangeState(Constants.STATE_ROLL);
@@ -120,6 +113,11 @@ public class PlayerStateController : MonoBehaviour
 		}
 	}
 
+	void JumpStateUpdate()
+    {
+        ChangeState(Constants.STATE_IDLE);
+    }
+	
 	void HighAttackStateUpdate()
 	{
 
@@ -162,13 +160,6 @@ public class PlayerStateController : MonoBehaviour
 		}
 	}
 
-	bool IsGrounded()
-	{
-		float pad = .1f;
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _distToGround + pad);
-		return hit.collider != null;
-	}
-
 	void FlipSpriteRight()
 	{
 		_spriteRenderer.flipX = false;
@@ -193,6 +184,8 @@ public class PlayerStateController : MonoBehaviour
 
 	bool NextAnimationStarted()
 	{
+        // is _animator.GetInteger("state") the same as the one that's playing?
+        // if not, then we must first finish the previous animation
 		bool playingNextAnimation = (GetStateHash(GetState()) == GetCurrentStateHash());
         float timePassed = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 		return playingNextAnimation && timePassed > 0;

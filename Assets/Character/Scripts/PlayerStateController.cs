@@ -188,19 +188,19 @@ public class PlayerStateController : MonoBehaviour
 
 	bool NextAnimationStarted()
 	{
-        return PlayingNextAnimation() && PlayedFirstFrameOfAnimation();
+		return PlayingNextAnimation() && PlayedFirstFrameOfAnimation();
 	}
 
 	bool PlayingNextAnimation()
-    {
+	{
 		// is _animator.GetInteger("state") the same as the one that's playing?
 		return GetStateHash(GetState()) == GetCurrentStateHash();
-    }
+	}
 
 	bool PlayedFirstFrameOfAnimation()
-    {
+	{
 		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0;
-    }
+	}
 
 	int GetStateHash(int state)
 	{

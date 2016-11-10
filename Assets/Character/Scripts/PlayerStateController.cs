@@ -86,6 +86,10 @@ public class PlayerStateController : MonoBehaviour
 
 	void IdleStateUpdate()
 	{
+		// If a default case fell here, don't respond to input until done with animation
+		if (!PlayingNextAnimation())
+			return;
+
 		if (PressedRoll())
 		{
 			ChangeState(Constants.STATE_ROLL);
@@ -96,13 +100,13 @@ public class PlayerStateController : MonoBehaviour
 		}
 		else if (PressedMoveLeft())
 		{
-			// default face right
+			// unflipped = facing right
 			ChangeState(Constants.STATE_MOVE_LEFT);
 			FlipSpriteLeft();
 		}
 		else if (PressedMoveRight())
 		{
-			// default face right
+			// unflipped = facing right
 			ChangeState(Constants.STATE_MOVE_RIGHT);
 			FlipSpriteRight();
 		}
@@ -114,9 +118,9 @@ public class PlayerStateController : MonoBehaviour
 	}
 
 	void JumpStateUpdate()
-    {
-        ChangeState(Constants.STATE_IDLE);
-    }
+	{
+		ChangeState(Constants.STATE_IDLE);
+	}
 	
 	void HighAttackStateUpdate()
 	{
@@ -184,12 +188,19 @@ public class PlayerStateController : MonoBehaviour
 
 	bool NextAnimationStarted()
 	{
-        // is _animator.GetInteger("state") the same as the one that's playing?
-        // if not, then we must first finish the previous animation
-		bool playingNextAnimation = (GetStateHash(GetState()) == GetCurrentStateHash());
-        float timePassed = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-		return playingNextAnimation && timePassed > 0;
+        return PlayingNextAnimation() && PlayedFirstFrameOfAnimation();
 	}
+
+	bool PlayingNextAnimation()
+    {
+		// is _animator.GetInteger("state") the same as the one that's playing?
+		return GetStateHash(GetState()) == GetCurrentStateHash();
+    }
+
+	bool PlayedFirstFrameOfAnimation()
+    {
+		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0;
+    }
 
 	int GetStateHash(int state)
 	{
@@ -211,9 +222,7 @@ public class PlayerStateController : MonoBehaviour
 			case Constants.STATE_JUMP:
 				return Animator.StringToHash("Base Layer.TestJump");
 			default:
-				// Eventually return the right hash for all states in Constants
-				// But need this for compiler's sake
-                Debug.Log("STATE \"" + state + "\" IS NOT VALID");
+				Debug.Log("STATE \"" + state + "\" IS NOT VALID");
 				return 0;
 		}
 	}

@@ -15,17 +15,17 @@ public class PlayerMovement : MonoBehaviour
 	{
 		switch (_controller.GetState())
 		{
-			case Constants.STATE_MOVE_LEFT:
+			case PlayerStateEnum.TestMoveLeft:
 				_rb.AddForce(transform.right * -Constants.BASE_MOVE_SPEED);
 				break;
-			case Constants.STATE_MOVE_RIGHT:
+			case PlayerStateEnum.TestMoveRight:
 				_rb.AddForce(transform.right * Constants.BASE_MOVE_SPEED);
 				break;
-			case Constants.STATE_JUMP:
+			case PlayerStateEnum.TestJump:
 				if (CollisionCommon.IsGrounded(this.gameObject))
 					_rb.AddForce(transform.up * Constants.BASE_JUMP_SPEED);
 				break;
-			case Constants.STATE_ROLL:
+			case PlayerStateEnum.TestRoll:
 				// roll the right way
 				break;
 		}

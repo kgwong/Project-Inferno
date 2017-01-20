@@ -2,7 +2,6 @@
 using System.Collections;
 
 
-
 public class PlayerMovement : MonoBehaviour {
 
 
@@ -21,10 +20,9 @@ public class PlayerMovement : MonoBehaviour {
     private float timer;
     private BoxCollider2D bc;
     private SpriteRenderer sr;
-    private float heightDifference = (float)0.65;
-    private float groundDistance;
-    private int groundLayer;
+    //private float heightDifference = (float)0.65;
     private RaycastHit2D downRay;
+    public OnGround og;
 
     void Start() {
 
@@ -35,17 +33,15 @@ public class PlayerMovement : MonoBehaviour {
         scale = transform.localScale;
         bc = GetComponent<BoxCollider2D>();
         sr = GetComponent<SpriteRenderer>();
-        groundDistance = 0.25f;
-        groundLayer = 1 << 8;
+        og = GetComponent<OnGround>();
+       
 
 
     }
 
-    void FixedUpdate() {
-
-        downRay = Physics2D.Raycast(sr.bounds.center + Vector3.down * sr.bounds.size.y / 2, Vector3.down, groundDistance, groundLayer);
+   void FixedUpdate() {
+        
         bc.size = sr.bounds.size;
-        checkBottom();
         if (!animator.GetBool("Rolling"))
         {
             //horizontal movement
@@ -54,22 +50,19 @@ public class PlayerMovement : MonoBehaviour {
 
 
 
-            if (animator.GetBool("OnGround"))
-            {
-                if (horizontal != 0)
+                if (horizontal != 0 && og.checkGrounded())
                 {
                     animator.Play("Walk");
                     Flip(horizontal);
                 }
 
-                else
+                else 
                 {
                     animator.Play("Idle");
                 }
 
-                if (Input.GetKeyDown(KeyCode.Space) && downRay.distance < 0.019)
+                if (Input.GetKeyDown(KeyCode.Space) && og.checkGrounded())
                 {
-                    animator.SetBool("OnGround", false);
                     animator.Play("Jump");
                     rb.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
 
@@ -82,11 +75,7 @@ public class PlayerMovement : MonoBehaviour {
                     timer = Time.time;
                 }
 
-
-
-            }
-
-        }
+         }
         else
         {
             float timePassed = Time.time - timer;
@@ -98,24 +87,12 @@ public class PlayerMovement : MonoBehaviour {
             }
             else
             {
-                animator.SetBool("OnGround", true);
                 animator.SetBool("Rolling", false);
             }
         }
     }
 
-    //use raycasting to determine OnGround
-    //jump "fails" if pressed during the window when you're not touching the ground yet but already "OnGround",
-    //but input queue should fix this
-    void checkBottom()
-    {
-        print(downRay.distance);
-        if (rb.velocity.y < 0 && downRay.collider != null)
-        {
-            animator.SetBool("OnGround", true);
-        }
-        
-    }
+
 
     void Flip(float horizontal)
     {
@@ -132,13 +109,13 @@ public class PlayerMovement : MonoBehaviour {
 
 
 
-    void OnCollisionExit2D(Collision2D coll)
-    {
-        if(coll.gameObject.tag == "Platform")
-        {
-            animator.SetBool("OnGround", false);
-        }
-    }
+    //void OnCollisionExit2D(Collision2D coll)
+    //{
+    //    if(coll.gameObject.tag == "Platform")
+    //    {
+    //        animator.SetBool("OnGround", false);
+    //    }
+    //}
 
     
 }

@@ -6,11 +6,13 @@ public class IdleState : PlayerState {
     private Animator an;
     private Player p;
     private RunState runState;
+    private Rigidbody2D rgb;
 	// Use this for initialization
 	void Start () {
         p = GetComponent<Player>();
         an = GetComponent<Animator>();
         runState = GetComponent<RunState>();
+        rgb = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame

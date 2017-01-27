@@ -3,7 +3,6 @@ using System.Collections;
 
 public class RunState : PlayerState {
 
-    private float direction;
     private Rigidbody2D rgb;
     private Player play;
     private IdleState idle;
@@ -14,20 +13,23 @@ public class RunState : PlayerState {
         play = GetComponent<Player>();
         idle = GetComponent<IdleState>();
         an = GetComponent<Animator>();
-	}
-	
-	// Update is called once per frame
-	public override void Update () {
+
+    }
+
+    // Update is called once per frame
+    public override void Update () {
 
 	}
 
     public override void ComponentUpdate()
     {
-        Debug.Log("direction: " + direction + ", speed: " + play.getSpeed());
         an.Play("Walk");
-            //Flip(direction);
-
+        
+       
         rgb.AddForce(Vector2.right * direction * play.getSpeed(), ForceMode2D.Impulse);
+        Flip();
+        Debug.Log("direction: " + direction + ", speed: " + rgb.velocity.x);
+
         handleInput();
     }
 
@@ -35,27 +37,18 @@ public class RunState : PlayerState {
     {
         if (Input.GetButton("Left"))
         {
-            direction = -1;
+            setDirection(-1);
         }
         else if (Input.GetButton("Right"))
         {
-            direction = 1;
+            setDirection(1);
         }
         else 
         {
-            direction = 0;
+            setDirection(0);
             play.changeState(idle);
         }
     }
 
 
-    public void setDirection(float d)
-    {
-        direction = d;
-    }
-
-    public float getDirection()
-    {
-        return direction;
-    }
 }

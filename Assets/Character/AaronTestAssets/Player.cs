@@ -4,16 +4,17 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
     private PlayerState state_;
-    private float moveSpeed = 10f;
+    private float moveSpeed = 3f;
     // Use this for initialization
     private IdleState idle;
 	void Start () {
         idle = GetComponent<IdleState>();
         state_ = idle;
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         state_.ComponentUpdate();
 	}
 

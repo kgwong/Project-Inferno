@@ -5,11 +5,12 @@ public class PlayerState : MonoBehaviour {
 
 
     private Vector3 scale;
-    private int directionFacing = 1;
-
+    protected float direction = 1;
+    protected int facing = 1;
+    private SpriteRenderer sr;
     void Start ()
     {
-        scale = transform.localScale;
+        sr = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -28,15 +29,32 @@ public class PlayerState : MonoBehaviour {
 
     }
 
-    public void Flip(float horizontal)
+    public void Flip()
     {
-        if ((directionFacing == 1 && horizontal < 0) || (directionFacing == -1 && horizontal > 0))
+        Debug.Log(gameObject);
+
+        Debug.Log("FACING: " + facing);
+
+        if (facing > 0 && direction < 0)
         {
-            scale.x *= -1;
-            transform.localScale = scale;
-
-            directionFacing = (int)(horizontal / Mathf.Abs(horizontal));
-
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            facing = -1;
         }
+        if(facing < 0 && direction > 0)
+        {
+            facing = 1;
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        
+    }
+
+    public void setDirection(float d)
+    {
+        direction = d;
+    }
+
+    public float getDirection()
+    {
+        return direction;
     }
 }

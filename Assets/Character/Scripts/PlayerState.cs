@@ -106,12 +106,13 @@ class PlayerState
 				Debug.Log("STATE \"" + state + "\" IS NOT VALID");
 				return 0;
 		}*/
-		return Animator.StringToHash(((PlayerStateEnum)state).ToString());
+        string baseLayer = "Base.";
+        string stateName = ((PlayerStateEnum)state).ToString();
+		return Animator.StringToHash(baseLayer + stateName);
 	}
 
 	int GetCurrentStateHash()
 	{
-		//return _animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
-		return _animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
+        return _animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
 	}
 }

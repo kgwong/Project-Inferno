@@ -12,7 +12,9 @@ class PlayerStateIdle : PlayerState
     {
         // If a default case fell here, don't respond to input until done with animation
         if (!PlayingNextAnimation())
+        {
             return;
+        }
 
         if (PressedRoll())
         {

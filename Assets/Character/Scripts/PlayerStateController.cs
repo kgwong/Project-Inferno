@@ -37,13 +37,14 @@ public class PlayerStateController : MonoBehaviour
 	private void InitStates()
 	{
 		_states.Add(PlayerStateEnum.TestIdle, new PlayerStateIdle(_animator));
+		_states.Add(PlayerStateEnum.TestMoveLeft, new PlayerStateMoveLeft(_animator));
+		_states.Add(PlayerStateEnum.TestMoveRight, new PlayerStateMoveRight(_animator));
 		_states.Add(PlayerStateEnum.TestRoll, new PlayerStateRoll(_animator));
 		_states.Add(PlayerStateEnum.TestHighAttack, new PlayerStateHighAttack(_animator));
 		_states.Add(PlayerStateEnum.TestMidAttack, new PlayerStateMidAttack(_animator));
-		_states.Add(PlayerStateEnum.TestMidAttackCombo, new PlayerStateMidCombo(_animator));
 		_states.Add(PlayerStateEnum.TestLowAttack, new PlayerStateLowAttack(_animator));
-		_states.Add(PlayerStateEnum.TestMoveLeft, new PlayerStateMove(_animator));
-		_states.Add(PlayerStateEnum.TestMoveRight, new PlayerStateMove(_animator));
+		_states.Add(PlayerStateEnum.TestMidAttackCombo, new PlayerStateMidCombo(_animator));
+        _states.Add(PlayerStateEnum.TestJump, new PlayerStateJump(_animator));
 	}
 }
 		/*

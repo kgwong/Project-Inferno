@@ -7,7 +7,12 @@ public class PlayerState : MonoBehaviour {
     private Vector3 scale;
     protected float direction = 1;
     protected int facing = 1;
+    protected bool grounded = false;
+    protected string name;
     private SpriteRenderer sr;
+    protected IdleState idle;
+    protected RunState run;
+    //protected AirborneState airborne;
     void Start ()
     {
         sr = gameObject.GetComponent<SpriteRenderer>();
@@ -56,5 +61,10 @@ public class PlayerState : MonoBehaviour {
     public float getDirection()
     {
         return direction;
+    }
+
+    public void setGrounded(bool g)
+    {
+        grounded = g;
     }
 }

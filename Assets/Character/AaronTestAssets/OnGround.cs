@@ -27,11 +27,11 @@ public class OnGround : MonoBehaviour {
 
     }
 
-    public bool isGrounded()
-    {
+    //public bool isGrounded()
+    //{
 
-        return an.GetBool("OnGround");
-    }
+    //    return an.GetBool("OnGround");
+    //}
 
    public bool checkGrounded()
     {

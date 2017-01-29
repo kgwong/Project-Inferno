@@ -4,15 +4,16 @@ using System.Collections;
 public class IdleState : PlayerState {
 
     private Animator an;
-    private Player p;
-    private RunState runState;
+    private Player play;
     private Rigidbody2D rgb;
-	// Use this for initialization
+
 	void Start () {
-        p = GetComponent<Player>();
+        play = GetComponent<Player>();
         an = GetComponent<Animator>();
-        runState = GetComponent<RunState>();
+        run = GetComponent<RunState>();
         rgb = GetComponent<Rigidbody2D>();
+        //airborne = GetComponent<AirborneState>();
+        name = "Idle";
 	}
 	
 	// Update is called once per frame
@@ -23,6 +24,11 @@ public class IdleState : PlayerState {
     {
         Debug.Log("IDLE");
         an.Play("Idle");
+        //if (!grounded)
+        //{
+        //    play.changeState(airborne);
+        //}
+
         handleInput();
     }
 
@@ -30,11 +36,17 @@ public class IdleState : PlayerState {
     {
 
         float horiz = Input.GetAxis("Horizontal");
-        if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right"))
+        if (Input.GetButton("Left") || Input.GetButton("Right"))
         {
             Debug.Log("HORIZONTAL: " + horiz);
-            runState.setDirection(horiz);
-            p.changeState(runState);
+            run.setDirection(horiz);
+            play.changeState(run);
+        }
+
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            Debug.Log("JUMP");
+            rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
         }
     }
 }

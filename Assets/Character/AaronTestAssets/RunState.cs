@@ -14,6 +14,7 @@ public class RunState : PlayerState {
         //airborne = GetComponent<AirborneState>();
         idle = GetComponent<IdleState>();
         roll = GetComponent<RollState>();
+        attack = GetComponent<AttackState>();
         name = "Run";
     }
 
@@ -39,7 +40,11 @@ public class RunState : PlayerState {
 
     public override void handleInput()
     {
-        if(Input.GetButtonDown("Roll") && grounded)
+        if (Input.GetButtonDown("Attack"))
+        {
+            play.changeState(attack);
+        }
+        if (Input.GetButtonDown("Roll") && grounded)
         {
             roll.setStartTime(Time.time);
             play.changeState(roll);
@@ -58,6 +63,7 @@ public class RunState : PlayerState {
         {
             setDirection(1);
         }
+
 
         else 
         {

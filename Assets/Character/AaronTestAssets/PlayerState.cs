@@ -13,6 +13,7 @@ public class PlayerState : MonoBehaviour {
     protected IdleState idle;
     protected RunState run;
     protected RollState roll;
+    protected AttackState attack;
     //protected AirborneState airborne;
 
     //this doesn't appear to do anything...

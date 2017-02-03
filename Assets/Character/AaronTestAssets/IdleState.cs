@@ -13,6 +13,7 @@ public class IdleState : PlayerState {
         rgb = GetComponent<Rigidbody2D>();
         roll = GetComponent<RollState>();
         sr = GetComponent<SpriteRenderer>();
+        attack = GetComponent<AttackState>();
         //airborne = GetComponent<AirborneState>();
         name = "Idle";
 	}
@@ -55,6 +56,10 @@ public class IdleState : PlayerState {
         {
             roll.setStartTime(Time.time);
             play.changeState(roll);
+        }
+        else if(Input.GetButtonDown("Attack"))
+        {
+            play.changeState(attack);
         }
     }
 }

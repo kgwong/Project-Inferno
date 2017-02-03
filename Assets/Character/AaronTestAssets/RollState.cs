@@ -36,7 +36,7 @@ public class RollState : PlayerState {
         {
             facing = 1;
         }
-        rgb.AddForce(Vector2.right * facing * play.getSpeed() * 2, ForceMode2D.Impulse);
+        rgb.AddForce(Vector2.right * facing * play.getSpeed() * rollMLTP, ForceMode2D.Impulse);
 
         Debug.Log("start time: " + startTime + "time passed: : " + (startTime - Time.time));
         if (Time.time - startTime > timer)

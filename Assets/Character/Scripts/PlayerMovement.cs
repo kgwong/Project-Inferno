@@ -26,9 +26,7 @@ public class PlayerMovement : MonoBehaviour
 					_rb.AddForce(transform.up * Constants.BASE_JUMP_SPEED);
 				break;
 			case PlayerStateEnum.TestRoll:
-                int dir = (_controller.FacingRight()) ? 1 : -1;
-                if (CollisionCommon.IsGrounded(this.gameObject))
-                    _rb.AddForce(transform.right * Constants.BASE_ROLL_SPEED * dir);	
+				// fix me
 				break;
 		}
 	}

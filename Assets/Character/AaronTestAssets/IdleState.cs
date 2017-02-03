@@ -6,12 +6,13 @@ public class IdleState : PlayerState {
     private Animator an;
     private Player play;
     private Rigidbody2D rgb;
-
 	void Start () {
         play = GetComponent<Player>();
         an = GetComponent<Animator>();
         run = GetComponent<RunState>();
         rgb = GetComponent<Rigidbody2D>();
+        roll = GetComponent<RollState>();
+        sr = GetComponent<SpriteRenderer>();
         //airborne = GetComponent<AirborneState>();
         name = "Idle";
 	}
@@ -24,6 +25,7 @@ public class IdleState : PlayerState {
     {
         Debug.Log("IDLE");
         an.Play("Idle");
+
         //if (!grounded)
         //{
         //    play.changeState(airborne);
@@ -47,6 +49,12 @@ public class IdleState : PlayerState {
         {
             Debug.Log("JUMP");
             rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
+            //an.Play("Jump"); gets overwritten by other state's animations
+        }
+        else if(Input.GetButtonDown("Roll") && grounded)
+        {
+            roll.setStartTime(Time.time);
+            play.changeState(roll);
         }
     }
 }

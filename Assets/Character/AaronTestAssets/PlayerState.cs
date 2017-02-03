@@ -9,13 +9,17 @@ public class PlayerState : MonoBehaviour {
     protected int facing = 1;
     protected bool grounded = false;
     protected string name;
-    private SpriteRenderer sr;
+    protected SpriteRenderer sr;
     protected IdleState idle;
     protected RunState run;
+    protected RollState roll;
     //protected AirborneState airborne;
+
+    //this doesn't appear to do anything...
     void Start ()
     {
         sr = gameObject.GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
@@ -36,9 +40,7 @@ public class PlayerState : MonoBehaviour {
 
     public void Flip()
     {
-        Debug.Log(gameObject);
 
-        Debug.Log("FACING: " + facing);
 
         if (facing > 0 && direction < 0)
         {

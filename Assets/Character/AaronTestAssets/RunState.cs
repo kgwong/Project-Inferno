@@ -13,13 +13,11 @@ public class RunState : PlayerState {
         an = GetComponent<Animator>();
         //airborne = GetComponent<AirborneState>();
         idle = GetComponent<IdleState>();
+        roll = GetComponent<RollState>();
         name = "Run";
     }
 
-    // Update is called once per frame
-    public override void Update () {
 
-	}
 
     public override void ComponentUpdate()
     {
@@ -41,10 +39,16 @@ public class RunState : PlayerState {
 
     public override void handleInput()
     {
+        if(Input.GetButtonDown("Roll") && grounded)
+        {
+            roll.setStartTime(Time.time);
+            play.changeState(roll);
+        }
         if (Input.GetButtonDown("Jump") && grounded)
         {
             Debug.Log("JUMP");
             rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
+            //an.Play("Jump"); gets overwritten by other states animations
         }
         if (Input.GetButton("Left"))
         {

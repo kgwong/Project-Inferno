@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class CollisionCommon // Better Name?
+public static class CollisionCommon 
 {
 	public static bool IsGrounded(GameObject go)
 	{

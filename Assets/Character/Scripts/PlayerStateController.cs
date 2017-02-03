@@ -9,17 +9,22 @@ public class PlayerStateController : MonoBehaviour
 
 	public PlayerStateEnum GetState()
 	{
-		return (PlayerStateEnum)_animator.GetInteger("state");
+		return (PlayerStateEnum)AnimatorCommon.GetState(_animator);
 	}
+
+	public bool FacingRight()
+    {
+        return AnimatorCommon.FacingRight(_animator);
+    }
 
 	void Start()
 	{
 		_animator = GetComponent<Animator>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
-		_animator.SetInteger("state", (int)PlayerStateEnum.TestIdle);
-		_animator.SetBool("facingRight", true);
 		_states = new Dictionary<PlayerStateEnum, PlayerState>();
-		
+
+        AnimatorCommon.FaceRight(_animator);
+        AnimatorCommon.SetState(_animator, (int)(PlayerStateEnum.TestIdle));
 		InitStates();
 	}
 
@@ -31,7 +36,7 @@ public class PlayerStateController : MonoBehaviour
 
 	private void FlipSpriteCorrectDirection()
 	{
-		_spriteRenderer.flipX = !_animator.GetBool("facingRight");
+        AnimatorCommon.FlipSpriteCorrectDirection(_animator, _spriteRenderer);
 	}
 
 	private void InitStates()

@@ -10,17 +10,22 @@ class PlayerStateMoveLeft : PlayerState
 
     public override void Update()
     {
-		bool facingRight = _animator.GetBool("facingRight");
-		if (Input.GetKey(KeyCode.LeftArrow))
+        bool facingRight = AnimatorCommon.FacingRight(_animator);
+
+        if (PlayerInput.PressedRoll())
         {
-            _animator.SetBool("facingRight", false);
+            ChangeState(PlayerStateEnum.TestRoll);
         }
-		else if (Input.GetKey(KeyCode.RightArrow))
+        else if (PlayerInput.HoldingMoveLeft())
         {
-            _animator.SetBool("facingRight", true);
+            AnimatorCommon.FaceLeft(_animator);
+        }
+        else if (PlayerInput.PressedMoveRight())
+        {
+            AnimatorCommon.FaceRight(_animator);
             ChangeState(PlayerStateEnum.TestMoveRight);
         }
-		else if (!facingRight && !Input.GetKey(KeyCode.LeftArrow))
+        else if (!facingRight && !PlayerInput.HoldingMoveLeft())
         {
             ChangeState(PlayerStateEnum.TestIdle);
         }

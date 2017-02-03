@@ -16,27 +16,27 @@ class PlayerStateIdle : PlayerState
             return;
         }
 
-        if (PressedRoll())
+        if (PlayerInput.PressedRoll())
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }
-        else if (PressedJump())
+        else if (PlayerInput.PressedJump())
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
-        else if (PressedMoveLeft())
+        else if (PlayerInput.PressedMoveLeft() || PlayerInput.HoldingMoveLeft())
         {
             // unflipped = facing right
             ChangeState(PlayerStateEnum.TestMoveLeft);
-            FlipSpriteLeft();
+            AnimatorCommon.FaceLeft(_animator);
         }
-        else if (PressedMoveRight())
+        else if (PlayerInput.PressedMoveRight() || PlayerInput.HoldingMoveRight())
         {
             // unflipped = facing right
             ChangeState(PlayerStateEnum.TestMoveRight);
-            FlipSpriteRight();
+            AnimatorCommon.FaceRight(_animator);
         }
-        else if (PressedMidAttack())
+        else if (PlayerInput.PressedMidAttack())
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }

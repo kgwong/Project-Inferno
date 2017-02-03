@@ -18,7 +18,7 @@ class PlayerState
 	
 	protected void ChangeState(PlayerStateEnum newState)
 	{
-		_animator.SetInteger("state", (int)newState);
+        AnimatorCommon.SetState(_animator, (int)newState);
 	}
 
 	protected bool NextAnimationStarted()
@@ -31,40 +31,7 @@ class PlayerState
         // after _animator.SetInteger("state"), takes a few frames before actually changing animation
         // however, the int itself is changed
         // is _animator.GetInteger("state") the same as the one that's playing?
-		return GetStateHash(_animator.GetInteger("state")) == GetCurrentStateHash();
-	}
-
-	protected void FlipSpriteLeft()
-	{
-		_animator.SetBool("facingRight", false);
-	}
-
-	protected void FlipSpriteRight()
-	{
-		_animator.SetBool("facingRight", true);
-	}
-
-	protected bool PressedRoll()
-	{
-		return Input.GetKeyDown(KeyCode.Space);
-	}
-
-	protected bool PressedMidAttack()
-	{
-		return Input.GetKeyDown(KeyCode.A);
-	}
-
-	protected bool PressedJump()
-	{
-		return Input.GetKey(KeyCode.B);
-	}
-	protected bool PressedMoveLeft()
-	{
-		return Input.GetKeyDown(KeyCode.LeftArrow);
-	}
-	protected bool PressedMoveRight()
-	{
-		return Input.GetKeyDown(KeyCode.RightArrow);
+        return GetStateHash(AnimatorCommon.GetState(_animator)) == GetCurrentStateHash();
 	}
 
 	protected bool FinishedCurrentAnimation()

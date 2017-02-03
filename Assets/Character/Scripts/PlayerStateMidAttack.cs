@@ -10,7 +10,7 @@ class PlayerStateMidAttack : PlayerState
 
     public override void Update()
     {
-		if (PressedMidAttack())
+		if (PlayerInput.PressedMidAttack())
         {
             ChangeState(PlayerStateEnum.TestMidAttackCombo);
         }

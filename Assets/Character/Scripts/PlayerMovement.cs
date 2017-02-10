@@ -26,7 +26,8 @@ public class PlayerMovement : MonoBehaviour
 					_rb.AddForce(transform.up * Constants.BASE_JUMP_SPEED);
 				break;
 			case PlayerStateEnum.TestRoll:
-				// fix me
+                int dir = (_controller.FacingRight()) ? 1 : -1;
+                _rb.AddRelativeForce(transform.right * Constants.BASE_ROLL_SPEED * dir);
 				break;
 		}
 	}

@@ -16,6 +16,10 @@ class PlayerStateMoveRight : PlayerState
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }
+		else if (PlayerInput.PressedMidAttack())
+        {
+            ChangeState(PlayerStateEnum.TestMidAttack);
+        }
         else if (PlayerInput.HoldingMoveRight())
         {
             AnimatorCommon.FaceRight(_animator);

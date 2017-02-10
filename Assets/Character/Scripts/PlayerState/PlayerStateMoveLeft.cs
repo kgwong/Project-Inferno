@@ -16,6 +16,10 @@ class PlayerStateMoveLeft : PlayerState
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }
+		else if (PlayerInput.PressedMidAttack())
+        {
+            ChangeState(PlayerStateEnum.TestMidAttack);
+        }
         else if (PlayerInput.HoldingMoveLeft())
         {
             AnimatorCommon.FaceLeft(_animator);

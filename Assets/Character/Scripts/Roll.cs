@@ -31,7 +31,7 @@ public class Roll : MonoBehaviour {
 	void FixedUpdate () {
     
 
-        bool touchingGround = checkGround.isGrounded();
+        bool touchingGround = checkGround.OnGround(colliderBox);
         if (Input.GetKeyDown(KeyCode.S))
         {
             if (touchingGround && !inRoll)

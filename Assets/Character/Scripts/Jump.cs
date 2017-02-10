@@ -9,6 +9,7 @@ public class Jump : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     GroundChecker checkGround;
+    Collider2D collider;
 
     // Use this for initialization
     void Start()
@@ -16,6 +17,7 @@ public class Jump : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         checkGround = GetComponent<GroundChecker>();
+        collider = GetComponent<Collider2D>();
         jumpAvailable = true;
     }
 
@@ -24,35 +26,34 @@ public class Jump : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool touchingGround = checkGround.isGrounded();
-        
-            if (touchingGround && jumpAvailable)
-            {
+        bool touchingGround = checkGround.OnGround(collider);
 
-            if (Input.GetKeyDown(KeyCode.Space))
+        if (touchingGround && jumpAvailable)
+        {
+
+            if (Input.GetKeyDown(KeyCode.Space) && anim.GetBool("roll") == false)
             {
                 print(touchingGround);
                 print("jumping up");
                 anim.SetBool("jump", true);
                 rb.AddForce(Vector2.up * jumpSpeed);
-                
-            }
-            }
-
-            else if (!jumpAvailable && touchingGround)
-            {
-     
-                print("landing");
-                anim.SetBool("jump", false);
-                jumpAvailable = true;
 
             }
-            else if (jumpAvailable && !touchingGround)
-            {
-                jumpAvailable = false;
-                print("in air");
-                anim.SetBool("jump", true);
-            }
+        }
+        else if (!jumpAvailable && touchingGround)
+        {
+
+            print("landing");
+            anim.SetBool("jump", false);
+            jumpAvailable = true;
+
+        }
+        else if (jumpAvailable && !touchingGround)
+        {
+            jumpAvailable = false;
+            print("in air");
+            anim.SetBool("jump", true);
+        }
 
     }
 

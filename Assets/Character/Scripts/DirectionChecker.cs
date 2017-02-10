@@ -3,36 +3,25 @@ using System.Collections;
 
 public class DirectionChecker : MonoBehaviour {
 
-    private Vector2 previousPos;
     private int direction; //left = -1, right = +1
 	
 	void Start () {
-        previousPos = transform.position;
-        direction = 1;
+
+        direction = 0;
 	}
 	
     public int getDirection()
     {
-        return direction;
-    }
-
-
-
-	void FixedUpdate () {
-
-        if (transform.position.x > previousPos.x)
-        {
-            direction = 1;
-        }
-        else if (transform.position.x < previousPos.x)
+        print(direction);
+        if (Input.GetAxis("Horizontal") < 0)
         {
             direction = -1;
         }
-
-        if (transform.position.x != previousPos.x)
+        else if (Input.GetAxis("Horizontal") > 0)
         {
-            previousPos = transform.position;
+            direction = 1;
         }
- 
-	}
+        return direction;
+    }
+
 }

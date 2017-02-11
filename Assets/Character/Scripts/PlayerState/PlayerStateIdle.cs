@@ -2,13 +2,12 @@
 
 class PlayerStateIdle : PlayerState
 {
-	public PlayerStateIdle(Animator animator)
-		: base(animator)
+    public PlayerStateIdle(Animator animator)
+        : base(animator) 
     {
-		
-    }	
+    }    
 
-	public override void Update()
+    public override void Update()
     {
         // If a default case fell here, don't respond to input until done with animation
         if (!PlayingNextAnimation())
@@ -20,7 +19,7 @@ class PlayerStateIdle : PlayerState
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }
-        else if (PlayerInput.PressedJump())
+        else if (PlayerInput.PressedJump() && canJump())
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
@@ -40,5 +39,10 @@ class PlayerStateIdle : PlayerState
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
+    }
+
+    private bool canJump()
+    {
+        return CollisionCommon.IsGrounded(_animator.gameObject);
     }
 }

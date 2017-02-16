@@ -26,13 +26,13 @@ class PlayerStateIdle : PlayerState
         else if (PlayerInput.PressedMoveLeft() || PlayerInput.HoldingMoveLeft())
         {
             // unflipped = facing right
-            ChangeState(PlayerStateEnum.TestMoveLeft);
+            ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceLeft(_animator);
         }
         else if (PlayerInput.PressedMoveRight() || PlayerInput.HoldingMoveRight())
         {
             // unflipped = facing right
-            ChangeState(PlayerStateEnum.TestMoveRight);
+            ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceRight(_animator);
         }
         else if (PlayerInput.PressedMidAttack())
@@ -43,6 +43,6 @@ class PlayerStateIdle : PlayerState
 
     private bool canJump()
     {
-        return CollisionCommon.IsGrounded(_animator.gameObject);
+        return CollisionCommon.IsGrounded(_go);
     }
 }

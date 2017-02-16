@@ -17,13 +17,13 @@ class PlayerStateRoll : PlayerState
 
 		if (PlayerInput.PressedMoveRight())
         {
-            ChangeState(PlayerStateEnum.TestMoveRight);
+            ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceRight(_animator);
             timeLeft = Constants.ROLL_TIME;
         }
 		else if (PlayerInput.PressedMoveLeft())
         {
-            ChangeState(PlayerStateEnum.TestMoveLeft);
+            ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceLeft(_animator);
             timeLeft = Constants.ROLL_TIME;
         }

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-class PlayerStateMoveRight : PlayerState
+class PlayerStateMove: PlayerState
 {
-	public PlayerStateMoveRight(Animator animator)
+	public PlayerStateMove(Animator animator)
 		: base(animator)
 	{
 
@@ -10,7 +10,6 @@ class PlayerStateMoveRight : PlayerState
 
 	public override void Update()
 	{
-        bool facingRight = AnimatorCommon.FacingRight(_animator);
 
 		if (PlayerInput.PressedRoll())
         {
@@ -24,14 +23,25 @@ class PlayerStateMoveRight : PlayerState
         {
             AnimatorCommon.FaceRight(_animator);
         }
-        else if (PlayerInput.PressedMoveLeft())
+        else if (PlayerInput.HoldingMoveLeft())
         {
 			AnimatorCommon.FaceLeft(_animator);
-            ChangeState(PlayerStateEnum.TestMoveLeft);
         }
-        else if (facingRight && !PlayerInput.HoldingMoveRight()) 
+        else if (NoLongerMovingLeft() || NoLongerMovingRight()) 
         {
             ChangeState(PlayerStateEnum.TestIdle);
         }
 	}
+
+    private bool NoLongerMovingLeft()
+    {
+        bool facingRight = AnimatorCommon.FacingRight(_animator);
+        return !facingRight && !PlayerInput.HoldingMoveLeft();
+    }
+
+    private bool NoLongerMovingRight()
+    {
+        bool facingRight = AnimatorCommon.FacingRight(_animator);
+        return facingRight && !PlayerInput.HoldingMoveRight();
+    }
 }

@@ -14,9 +14,9 @@ class PlayerStateMidAttack : PlayerState
         {
             ChangeState(PlayerStateEnum.TestMidAttackCombo);
         }
-		else if (FinishedCurrentAnimation())
+        else
         {
-            ChangeState(PlayerStateEnum.TestIdle);
+            IdleIfFinished();
         }
     }
 }

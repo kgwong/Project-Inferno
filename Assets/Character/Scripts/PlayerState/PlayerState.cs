@@ -3,10 +3,12 @@
 class PlayerState
 {
 	protected Animator _animator;
+    protected GameObject _go;
 		
 	public PlayerState(Animator animator)
 	{
 		_animator = animator;
+        _go = _animator.gameObject;
 	}
 	public virtual void Update()
 	{
@@ -20,6 +22,14 @@ class PlayerState
 	{
         AnimatorCommon.SetState(_animator, (int)newState);
 	}
+
+    protected void IdleIfFinished()
+    {
+        if (FinishedCurrentAnimation())
+        {
+            ChangeState(PlayerStateEnum.TestIdle);
+        }
+    }
 
 	protected bool NextAnimationStarted()
 	{

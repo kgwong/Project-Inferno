@@ -10,13 +10,9 @@ class PlayerStateJump : PlayerState
 
     public override void Update()
     {
-		if (PlayerInput.HoldingMoveLeft())
+		if (PlayerInput.HoldingMoveLeft() || PlayerInput.HoldingMoveRight())
         {
-            ChangeState(PlayerStateEnum.TestMoveLeft);
-        }
-		else if (PlayerInput.HoldingMoveRight())
-        {
-            ChangeState(PlayerStateEnum.TestMoveRight);
+            ChangeState(PlayerStateEnum.TestMove);
         }
 		else if (NextAnimationStarted())
         {

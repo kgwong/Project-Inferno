@@ -1,12 +1,11 @@
 ﻿public enum PlayerStateEnum
 {
 	TestIdle = 0,
-	TestMoveLeft = 1,	 
-	TestMoveRight = 2,
-	TestRoll = 3,
-	TestHighAttack = 4,
-	TestMidAttack = 5,
-	TestLowAttack = 6,
-	TestMidAttackCombo = 7,
-	TestJump = 8,
+	TestMove = 1,
+	TestRoll = 2,
+	TestHighAttack = 3,
+	TestMidAttack = 4,
+	TestLowAttack = 5,
+	TestMidAttackCombo = 6,
+	TestJump = 7,
 }

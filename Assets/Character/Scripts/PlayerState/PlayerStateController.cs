@@ -42,8 +42,7 @@ public class PlayerStateController : MonoBehaviour
 	private void InitStates()
 	{
 		_states.Add(PlayerStateEnum.TestIdle, new PlayerStateIdle(_animator));
-		_states.Add(PlayerStateEnum.TestMoveLeft, new PlayerStateMoveLeft(_animator));
-		_states.Add(PlayerStateEnum.TestMoveRight, new PlayerStateMoveRight(_animator));
+		_states.Add(PlayerStateEnum.TestMove, new PlayerStateMove(_animator));
 		_states.Add(PlayerStateEnum.TestRoll, new PlayerStateRoll(_animator));
 		_states.Add(PlayerStateEnum.TestHighAttack, new PlayerStateHighAttack(_animator));
 		_states.Add(PlayerStateEnum.TestMidAttack, new PlayerStateMidAttack(_animator));

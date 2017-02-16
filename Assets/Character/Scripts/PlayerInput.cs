@@ -32,6 +32,6 @@ public static class PlayerInput
 
     public static bool HoldingMoveRight()
     {
-        return Input.GetKey(KeyCode.RightArrow);
+       return Input.GetKey(KeyCode.RightArrow);
     }    
 }

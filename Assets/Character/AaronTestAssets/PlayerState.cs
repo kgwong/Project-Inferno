@@ -8,12 +8,13 @@ public class PlayerState : MonoBehaviour {
     protected float direction = 1;
     protected int facing = 1;
     protected bool grounded = false;
-    protected string name;
+    protected new string name;
     protected SpriteRenderer sr;
     protected IdleState idle;
     protected RunState run;
     protected RollState roll;
     protected AttackState attack;
+    protected BackstepState backstep;
     //protected AirborneState airborne;
 
     //this doesn't appear to do anything...

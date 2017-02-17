@@ -15,6 +15,7 @@ public class RunState : PlayerState {
         idle = GetComponent<IdleState>();
         roll = GetComponent<RollState>();
         attack = GetComponent<AttackState>();
+        backstep = GetComponent<BackstepState>();
         name = "Run";
     }
 
@@ -44,6 +45,12 @@ public class RunState : PlayerState {
 
     public override void handleInput()
     {
+        if (Input.GetButtonDown("Backstep"))
+        {
+            backstep.setStartTime(Time.time);
+            play.changeState(backstep);
+        }
+
         if (Input.GetButtonDown("Attack"))
         {
             play.changeState(attack);
@@ -69,6 +76,7 @@ public class RunState : PlayerState {
         }
 
 
+
         else 
         {
             setDirection(0);
@@ -76,5 +84,8 @@ public class RunState : PlayerState {
         }
     }
 
-
+    public int getFacing()
+    {
+        return facing;
+    }
 }

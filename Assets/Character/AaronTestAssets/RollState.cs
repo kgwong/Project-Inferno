@@ -22,23 +22,16 @@ public class RollState : PlayerState {
         idle = GetComponent<IdleState>();
         sr = GetComponent<SpriteRenderer>();
         name = "Roll";
+
     }
-	
-	public override void ComponentUpdate () {
+
+    public override void ComponentUpdate () {
+        facing = run.getFacing();
+
         an.Play("Roll");
-        
-        //I shouldn't have to do this; not sure why setting these in RunState is only temporary
-        if (sr.flipX == true)
-        {
-            facing = -1;
-        }
-        else
-        {
-            facing = 1;
-        }
+
         rgb.AddForce(Vector2.right * facing * play.getSpeed() * rollMLTP, ForceMode2D.Impulse);
 
-        Debug.Log("start time: " + startTime + "time passed: : " + (startTime - Time.time));
         if (Time.time - startTime > timer)
         {
             play.changeState(idle);

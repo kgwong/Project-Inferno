@@ -14,6 +14,7 @@ public class IdleState : PlayerState {
         roll = GetComponent<RollState>();
         sr = GetComponent<SpriteRenderer>();
         attack = GetComponent<AttackState>();
+        backstep = GetComponent<BackstepState>();
         //airborne = GetComponent<AirborneState>();
         name = "Idle";
 	}
@@ -52,7 +53,6 @@ public class IdleState : PlayerState {
 
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            Debug.Log("JUMP");
             rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
             //an.Play("Jump"); gets overwritten by other state's animations
         }
@@ -64,6 +64,11 @@ public class IdleState : PlayerState {
         else if(Input.GetButtonDown("Attack"))
         {
             play.changeState(attack);
+        }
+        else if(Input.GetButtonDown("Backstep"))
+        {
+            backstep.setStartTime(Time.time);
+            play.changeState(backstep);
         }
     }
 }

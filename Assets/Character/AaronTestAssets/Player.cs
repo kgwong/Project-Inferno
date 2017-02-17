@@ -43,4 +43,5 @@ public class Player : MonoBehaviour {
     {
         return jumpPower;
     }
+
 }

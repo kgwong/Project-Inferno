@@ -25,7 +25,11 @@ public class IdleState : PlayerState {
     public override void ComponentUpdate()
     {
         Debug.Log("IDLE");
-        an.Play("Idle");
+        if (!an.GetCurrentAnimatorStateInfo(0).IsName("Attack")) //let attack animation finish
+        {
+            an.Play("Idle");
+        }
+
 
         //if (!grounded)
         //{

@@ -9,13 +9,14 @@ public class AttackState : PlayerState {
     private Animator an;
     private Player play;
     private Rigidbody2D rgb;
-
     // Use this for initialization
     void Start () {
         play = GetComponent<Player>();
         an = GetComponent<Animator>();
         rgb = GetComponent<Rigidbody2D>();
         idle = GetComponent<IdleState>();
+        run = GetComponent<RunState>();
+        
     }
 
     // Update is called once per frame
@@ -26,9 +27,10 @@ public class AttackState : PlayerState {
 
     public override void handleInput()
     {
-        if (!Input.GetButton("Attack"))
+        if (!Input.GetButtonDown("Attack"))
         {
-            play.changeState(idle);
+            play.changeState(run);
         }
     }
+
 }

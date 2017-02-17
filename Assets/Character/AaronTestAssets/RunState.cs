@@ -22,14 +22,18 @@ public class RunState : PlayerState {
 
     public override void ComponentUpdate()
     {
-        Debug.Log("direction: " + direction + ", speed: " + rgb.velocity.x);
+        Debug.Log("direction: " + direction + ", speed y: " + rgb.velocity.y);
 
-        an.Play("Walk");
-        
-       
+        if (!an.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            an.Play("Walk");   
+        }
+
+
         rgb.AddForce(Vector2.right * direction * play.getSpeed(), ForceMode2D.Impulse);
+        Debug.Log("SLEEPING: " + rgb.IsSleeping());
         Flip();
-
+        
 
         //if(!grounded)
         //{

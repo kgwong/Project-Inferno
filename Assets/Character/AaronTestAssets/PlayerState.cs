@@ -27,7 +27,7 @@ public class PlayerState : MonoBehaviour {
     public virtual void Update ()
     {
 
-	}
+    }
 
     public virtual void ComponentUpdate()
     {

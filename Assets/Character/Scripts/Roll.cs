@@ -9,7 +9,7 @@ public class Roll : MonoBehaviour {
     public float rollDuration;
 
     GroundChecker checkGround;
-    Collider2D colliderBox;
+    BoxCollider2D colliderBox;
     Animator anim;
     Rigidbody2D rb;
     DirectionChecker dirCheck;
@@ -17,7 +17,7 @@ public class Roll : MonoBehaviour {
 
 	void Start () {
         checkGround = GetComponent<GroundChecker>();
-        colliderBox = GetComponent<Collider2D>();
+        colliderBox = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         dirCheck = GetComponent<DirectionChecker>();
@@ -39,7 +39,7 @@ public class Roll : MonoBehaviour {
                 startTime = Time.time;
                 anim.SetBool("roll", true);
                 inRoll = true;
-                colliderBox.offset.Set(0, colliderBox.bounds.extents.y / 2);
+                colliderBox.size = new Vector2(colliderBox.size.x, colliderBox.size.y /2);
                 print(rb.velocity);
                 rollPusher.force = new Vector2(dirCheck.getDirection() * rollSpeedX, 0);
             }
@@ -51,7 +51,10 @@ public class Roll : MonoBehaviour {
             inRoll = false;
             print("roll should have ended");
             anim.SetBool("roll", false);
+            colliderBox.size = new Vector2(colliderBox.size.x, colliderBox.size.y * 2);
             rollPusher.force = new Vector2(0, 0);
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            
         }
 
             

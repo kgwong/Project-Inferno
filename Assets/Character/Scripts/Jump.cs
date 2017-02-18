@@ -34,7 +34,7 @@ public class Jump : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && anim.GetBool("roll") == false)
             {
                 print(touchingGround);
-                print("jumping up");
+                //print("jumping up");
                 anim.SetBool("jump", true);
                 rb.AddForce(Vector2.up * jumpSpeed);
 
@@ -43,7 +43,7 @@ public class Jump : MonoBehaviour
         else if (!jumpAvailable && touchingGround)
         {
 
-            print("landing");
+            //print("landing");
             anim.SetBool("jump", false);
             jumpAvailable = true;
 
@@ -51,8 +51,7 @@ public class Jump : MonoBehaviour
         else if (jumpAvailable && !touchingGround)
         {
             jumpAvailable = false;
-            print("in air");
-            anim.SetBool("jump", true);
+            //anim.SetBool("jump", true);
         }
 
     }

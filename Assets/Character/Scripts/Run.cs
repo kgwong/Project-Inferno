@@ -23,7 +23,12 @@ public class Run : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
         {
-            rb.velocity = new Vector2(dirCheck.getDirection() * moveSpeedX, rb.velocity.y);
+     
+            if (!anim.GetBool("roll"))
+            {
+                rb.velocity = new Vector2(dirCheck.getDirection() * moveSpeedX, rb.velocity.y);
+            }
+            
             if (Mathf.Abs(rb.velocity.x) > 1f && anim.GetBool("roll") == false && anim.GetBool("jump") == false)
             { 
                 anim.SetBool("run", true);

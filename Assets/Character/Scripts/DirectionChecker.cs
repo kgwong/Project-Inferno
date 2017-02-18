@@ -3,23 +3,27 @@ using System.Collections;
 
 public class DirectionChecker : MonoBehaviour {
 
+    Animator anim;
     private int direction; //left = -1, right = +1
 	
 	void Start () {
-
-        direction = 0;
+        anim = GetComponent<Animator>();
+        direction = 1;
 	}
 	
     public int getDirection()
     {
-        print(direction);
-        if (Input.GetAxis("Horizontal") < 0)
+        //print(direction);
+       if (!anim.GetBool("roll"))
         {
-            direction = -1;
-        }
-        else if (Input.GetAxis("Horizontal") > 0)
-        {
-            direction = 1;
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                direction = -1;
+            }
+            else if (Input.GetAxis("Horizontal") > 0)
+            {
+                direction = 1;
+            }
         }
         return direction;
     }

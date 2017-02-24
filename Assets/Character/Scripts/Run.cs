@@ -29,12 +29,12 @@ public class Run : MonoBehaviour {
                 rb.velocity = new Vector2(dirCheck.getDirection() * moveSpeedX, rb.velocity.y);
             }
             
-            if (Mathf.Abs(rb.velocity.x) > 1f && anim.GetBool("roll") == false && anim.GetBool("jump") == false)
+            if (anim.GetBool("roll") == false && anim.GetBool("jump") == false)
             { 
                 anim.SetBool("run", true);
             }
         }
-        else
+        else 
         {
             anim.SetBool("run", false);
         }

@@ -38,6 +38,7 @@ public class Roll : MonoBehaviour {
             {
                 startTime = Time.time;
                 anim.SetBool("roll", true);
+                anim.SetBool("run", false);
                 inRoll = true;
                 colliderBox.size = new Vector2(colliderBox.size.x, colliderBox.size.y /2);
                 print(rb.velocity);
@@ -50,11 +51,11 @@ public class Roll : MonoBehaviour {
         {
             inRoll = false;
             print("roll should have ended");
-            anim.SetBool("roll", false);
             colliderBox.size = new Vector2(colliderBox.size.x, colliderBox.size.y * 2);
             rollPusher.force = new Vector2(0, 0);
             rb.velocity = new Vector2(0, rb.velocity.y);
-            
+            anim.SetBool("roll", false);
+
         }
 
             

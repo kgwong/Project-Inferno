@@ -8,4 +8,5 @@
 	TestLowAttack = 5,
 	TestMidAttackCombo = 6,
 	TestJump = 7,
+    TestAirborneMove = 8
 }

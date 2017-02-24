@@ -10,8 +10,15 @@ class PlayerStateMove: PlayerState
 
 	public override void Update()
 	{
-
-		if (PlayerInput.PressedRoll())
+        if (!CollisionCommon.IsGrounded(_go))
+        {
+            ChangeState(PlayerStateEnum.TestAirborneMove);
+        }
+        else if (PlayerInput.PressedJump())
+        {
+            ChangeState(PlayerStateEnum.TestJump);
+        }
+		else if (PlayerInput.PressedRoll())
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }

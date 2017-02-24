@@ -19,7 +19,7 @@ class PlayerStateIdle : PlayerState
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }
-        else if (PlayerInput.PressedJump() && canJump())
+        else if (PlayerInput.PressedJump() && IsGrounded())
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
@@ -41,7 +41,7 @@ class PlayerStateIdle : PlayerState
         }
     }
 
-    private bool canJump()
+    private bool IsGrounded()
     {
         return CollisionCommon.IsGrounded(_go);
     }

@@ -4,7 +4,7 @@ public static class PlayerInput
 {
     public static bool PressedRoll()
     {
-        return Input.GetKeyDown(KeyCode.Space);
+        return Input.GetKeyDown(KeyCode.C);
     }
 
     public static bool PressedMidAttack()

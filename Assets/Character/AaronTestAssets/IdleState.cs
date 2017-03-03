@@ -15,7 +15,7 @@ public class IdleState : PlayerState {
         sr = GetComponent<SpriteRenderer>();
         attack = GetComponent<AttackState>();
         backstep = GetComponent<BackstepState>();
-        //airborne = GetComponent<AirborneState>();
+        airborne = GetComponent<AirborneState>();
         name = "Idle";
 	}
 	
@@ -26,16 +26,16 @@ public class IdleState : PlayerState {
     public override void ComponentUpdate()
     {
         Debug.Log("IDLE");
-        if (!an.GetCurrentAnimatorStateInfo(0).IsName("Attack")) //let attack animation finish
+        if (!an.GetCurrentAnimatorStateInfo(0).IsName("Attack") && !an.GetCurrentAnimatorStateInfo(0).IsName("Attack")) //let attack animation finish
         {
             an.Play("Idle");
         }
 
 
-        //if (!grounded)
-        //{
-        //    play.changeState(airborne);
-        //}
+        if (!grounded)
+        {
+            play.changeState(airborne);
+        }
 
         handleInput();
     }
@@ -54,7 +54,7 @@ public class IdleState : PlayerState {
         if (Input.GetButtonDown("Jump") && grounded)
         {
             rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
-            //an.Play("Jump"); gets overwritten by other state's animations
+            an.Play("Jump"); 
         }
         else if(Input.GetButtonDown("Roll") && grounded)
         {

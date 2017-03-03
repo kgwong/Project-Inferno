@@ -15,7 +15,7 @@ public class PlayerState : MonoBehaviour {
     protected RollState roll;
     protected AttackState attack;
     protected BackstepState backstep;
-    //protected AirborneState airborne;
+    protected AirborneState airborne;
 
     //this doesn't appear to do anything...
     void Start ()

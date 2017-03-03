@@ -11,7 +11,7 @@ public class RunState : PlayerState {
         rgb = GetComponent<Rigidbody2D>();
         play = GetComponent<Player>();
         an = GetComponent<Animator>();
-        //airborne = GetComponent<AirborneState>();
+        airborne = GetComponent<AirborneState>();
         idle = GetComponent<IdleState>();
         roll = GetComponent<RollState>();
         attack = GetComponent<AttackState>();
@@ -23,29 +23,29 @@ public class RunState : PlayerState {
 
     public override void ComponentUpdate()
     {
-        Debug.Log("direction: " + direction + ", speed y: " + rgb.velocity.y);
+        Debug.Log("direction: " + direction + ", speed x: " + rgb.velocity.x);
 
-        if (!an.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (!an.GetCurrentAnimatorStateInfo(0).IsName("Attack") && !an.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
         {
             an.Play("Walk");   
         }
 
 
+
         rgb.AddForce(Vector2.right * direction * play.getSpeed(), ForceMode2D.Impulse);
-        Debug.Log("SLEEPING: " + rgb.IsSleeping());
         Flip();
         
 
-        //if(!grounded)
-        //{
-        //    play.changeState(airborne);
-        //}
+        if(!grounded)
+        {
+            play.changeState(airborne);
+        }
         handleInput();
     }
 
     public override void handleInput()
     {
-        if (Input.GetButtonDown("Backstep"))
+        if (Input.GetButtonDown("Backstep") && grounded)
         {
             backstep.setStartTime(Time.time);
             play.changeState(backstep);
@@ -64,7 +64,7 @@ public class RunState : PlayerState {
         {
             Debug.Log("JUMP");
             rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
-            //an.Play("Jump"); gets overwritten by other states animations
+            an.Play("Jump"); //gets overwritten by other states animations
         }
         if (Input.GetButton("Left"))
         {

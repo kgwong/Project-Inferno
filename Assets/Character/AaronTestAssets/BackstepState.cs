@@ -6,7 +6,7 @@ public class BackstepState : PlayerState {
 
     private Rigidbody2D rgb;
     private Player play;
-    private Animator an;
+ //   private Animator an;
     private float timer = 0.08f;
     private float backStepSpeed = 5f;
     private float backStepHeight = 0.6f;
@@ -16,7 +16,7 @@ public class BackstepState : PlayerState {
     void Start () {
         rgb = GetComponent<Rigidbody2D>();
         play = GetComponent<Player>();
-        an = GetComponent<Animator>();
+    //    an = GetComponent<Animator>();
         idle = GetComponent<IdleState>();
         run = GetComponent<RunState>();
     }

@@ -9,7 +9,7 @@ public class RollState : PlayerState {
     private Animator an;
     private Player play;
     private Rigidbody2D rgb;
-    private float timer = 0.2f;
+    private float timer = 0.12f;
     private float rollMLTP = 3f;
     private float startTime;
 

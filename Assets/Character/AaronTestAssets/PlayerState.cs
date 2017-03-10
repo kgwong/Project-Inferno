@@ -17,10 +17,11 @@ public class PlayerState : MonoBehaviour {
     protected BackstepState backstep;
     protected AirborneState airborne;
 
+
     //this doesn't appear to do anything...
     void Start ()
     {
-        sr = gameObject.GetComponent<SpriteRenderer>();
+        //sr = gameObject.GetComponent<SpriteRenderer>();
 
     }
 

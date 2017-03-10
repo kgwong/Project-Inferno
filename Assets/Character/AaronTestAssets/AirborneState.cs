@@ -38,7 +38,7 @@ public class AirborneState : PlayerState {
         rgb.AddForce(Vector2.right * direction * (play.getSpeed()), ForceMode2D.Impulse);
 
         //how fast 0 goes to 1 for GetAxis determines how fast the player can pick up/change speed in the air (and therefore how far)
-        //play.getSpeed() just determines max air speed when direction is -1 or 1
+        //play.getSpeed() here just determines max air speed when direction is -1 or 1
 
 
         Flip();

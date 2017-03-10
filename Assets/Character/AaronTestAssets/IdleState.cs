@@ -56,19 +56,23 @@ public class IdleState : PlayerState {
             rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
             an.Play("Jump"); 
         }
-        else if(Input.GetButtonDown("Roll") && grounded)
+        else if(Input.GetButtonDown("Roll") && grounded && !play.getRollUsed())
         {
             roll.setStartTime(Time.time);
             play.changeState(roll);
+            play.setRollCD();
+
         }
         else if(Input.GetButtonDown("Attack"))
         {
             play.changeState(attack);
         }
-        else if(Input.GetButtonDown("Backstep"))
+        else if(Input.GetButtonDown("Backstep") && !play.getBStepUsed())
         {
             backstep.setStartTime(Time.time);
             play.changeState(backstep);
+            play.setBStepCD();
+
         }
     }
 }

@@ -7,6 +7,7 @@ public class RunState : PlayerState {
     private Player play;
     private Animator an;
 
+
     void Start () {
         rgb = GetComponent<Rigidbody2D>();
         play = GetComponent<Player>();
@@ -17,6 +18,7 @@ public class RunState : PlayerState {
         attack = GetComponent<AttackState>();
         backstep = GetComponent<BackstepState>();
         name = "Run";
+
     }
 
 
@@ -45,20 +47,22 @@ public class RunState : PlayerState {
 
     public override void handleInput()
     {
-        if (Input.GetButtonDown("Backstep") && grounded)
+        if (Input.GetButtonDown("Backstep") && grounded && !play.getBStepUsed())
         {
             backstep.setStartTime(Time.time);
             play.changeState(backstep);
+            play.setBStepCD();
         }
 
         if (Input.GetButtonDown("Attack"))
         {
             play.changeState(attack);
         }
-        if (Input.GetButtonDown("Roll") && grounded)
+        if (Input.GetButtonDown("Roll") && grounded && !play.getRollUsed())
         {
             roll.setStartTime(Time.time);
             play.changeState(roll);
+            play.setRollCD();
         }
         if (Input.GetButtonDown("Jump") && grounded)
         {
@@ -74,8 +78,6 @@ public class RunState : PlayerState {
         {
             setDirection(1);
         }
-
-
 
         else 
         {

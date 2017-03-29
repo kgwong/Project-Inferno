@@ -9,13 +9,8 @@ public class IdleState : PlayerState {
 	void Start () {
         play = GetComponent<Player>();
         an = GetComponent<Animator>();
-        run = GetComponent<RunState>();
         rgb = GetComponent<Rigidbody2D>();
-        roll = GetComponent<RollState>();
         sr = GetComponent<SpriteRenderer>();
-        attack = GetComponent<AttackState>();
-        backstep = GetComponent<BackstepState>();
-        airborne = GetComponent<AirborneState>();
         name = "Idle";
 	}
 	
@@ -25,6 +20,7 @@ public class IdleState : PlayerState {
 
     public override void ComponentUpdate()
     {
+        facing = play.getRun().getFacing();
         Debug.Log("IDLE");
         if (!an.GetCurrentAnimatorStateInfo(0).IsName("Attack") && !an.GetCurrentAnimatorStateInfo(0).IsName("Attack")) //let attack animation finish
         {
@@ -34,7 +30,7 @@ public class IdleState : PlayerState {
 
         if (!grounded)
         {
-            play.changeState(airborne);
+            play.changeState(StateEnums.AirborneState);
         }
 
         handleInput();
@@ -47,30 +43,30 @@ public class IdleState : PlayerState {
         if (Input.GetButton("Left") || Input.GetButton("Right"))
         {
             Debug.Log("HORIZONTAL: " + horiz);
-            run.setDirection(horiz);
-            play.changeState(run);
+            play.getRun().setDirection(horiz);
+            play.changeState(StateEnums.RunState);
         }
 
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
+            rgb.AddForce(Vector2.up * Constants.jumpPower, ForceMode2D.Impulse);
             an.Play("Jump"); 
         }
         else if(Input.GetButtonDown("Roll") && grounded && !play.getRollUsed())
         {
-            roll.setStartTime(Time.time);
-            play.changeState(roll);
+            play.getRoll().setStartTime(Time.time);
+            play.changeState(StateEnums.RollState);
             play.setRollCD();
 
         }
         else if(Input.GetButtonDown("Attack"))
         {
-            play.changeState(attack);
+            play.changeState(StateEnums.AttackState);
         }
         else if(Input.GetButtonDown("Backstep") && !play.getBStepUsed())
         {
-            backstep.setStartTime(Time.time);
-            play.changeState(backstep);
+            play.getBack().setStartTime(Time.time);
+            play.changeState(StateEnums.BackstepState);
             play.setBStepCD();
 
         }

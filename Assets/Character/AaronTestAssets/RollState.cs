@@ -9,32 +9,27 @@ public class RollState : PlayerState {
     private Animator an;
     private Player play;
     private Rigidbody2D rgb;
-    private float timer = 0.12f;
-    private float rollMLTP = 3f;
     private float startTime;
 
 
     void Start () {
         play = GetComponent<Player>();
         an = GetComponent<Animator>();
-        run = GetComponent<RunState>();
         rgb = GetComponent<Rigidbody2D>();
-        idle = GetComponent<IdleState>();
         sr = GetComponent<SpriteRenderer>();
         name = "Roll";
 
     }
 
     public override void ComponentUpdate () {
-        facing = run.getFacing();
-
+        facing = play.getRun().getFacing();
         an.Play("Roll");
 
-        rgb.AddForce(Vector2.right * facing * play.getSpeed() * rollMLTP, ForceMode2D.Impulse);
+        rgb.AddForce(Vector2.right * facing * Constants.moveSpeed * Constants.rollMLTP, ForceMode2D.Impulse);
 
-        if (Time.time - startTime > timer)
+        if (Time.time - startTime > Constants.rollTimer)
         {
-            play.changeState(idle);
+            play.changeState(StateEnums.IdleState);
         }
         handleInput();
 	}

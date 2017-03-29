@@ -12,11 +12,6 @@ public class RunState : PlayerState {
         rgb = GetComponent<Rigidbody2D>();
         play = GetComponent<Player>();
         an = GetComponent<Animator>();
-        airborne = GetComponent<AirborneState>();
-        idle = GetComponent<IdleState>();
-        roll = GetComponent<RollState>();
-        attack = GetComponent<AttackState>();
-        backstep = GetComponent<BackstepState>();
         name = "Run";
 
     }
@@ -34,13 +29,13 @@ public class RunState : PlayerState {
 
 
 
-        rgb.AddForce(Vector2.right * direction * play.getSpeed(), ForceMode2D.Impulse);
+        rgb.AddForce(Vector2.right * direction * Constants.moveSpeed, ForceMode2D.Impulse);
         Flip();
         
 
         if(!grounded)
         {
-            play.changeState(airborne);
+            play.changeState(StateEnums.AirborneState);
         }
         handleInput();
     }
@@ -49,25 +44,25 @@ public class RunState : PlayerState {
     {
         if (Input.GetButtonDown("Backstep") && grounded && !play.getBStepUsed())
         {
-            backstep.setStartTime(Time.time);
-            play.changeState(backstep);
+            play.getBack().setStartTime(Time.time);
+            play.changeState(StateEnums.BackstepState);
             play.setBStepCD();
         }
 
         if (Input.GetButtonDown("Attack"))
         {
-            play.changeState(attack);
+            play.changeState(StateEnums.AttackState);
         }
         if (Input.GetButtonDown("Roll") && grounded && !play.getRollUsed())
         {
-            roll.setStartTime(Time.time);
-            play.changeState(roll);
+            play.getRoll().setStartTime(Time.time);
+            play.changeState(StateEnums.RollState);
             play.setRollCD();
         }
         if (Input.GetButtonDown("Jump") && grounded)
         {
             Debug.Log("JUMP");
-            rgb.AddForce(Vector2.up * play.getJump(), ForceMode2D.Impulse);
+            rgb.AddForce(Vector2.up * Constants.jumpPower, ForceMode2D.Impulse);
             an.Play("Jump"); //gets overwritten by other states animations
         }
         if (Input.GetButton("Left"))
@@ -82,7 +77,7 @@ public class RunState : PlayerState {
         else 
         {
             setDirection(0);
-            play.changeState(idle);
+            play.changeState(StateEnums.IdleState);
         }
     }
 

@@ -4,9 +4,6 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
     private PlayerState state_;
-    private float moveSpeed = 3f;
-    private float jumpPower = 8f;
-    private float cooldown = 1f;
     private float rollCDTimer;
     private float bStepCDTimer;
     private bool rollUsed;
@@ -14,13 +11,31 @@ public class Player : MonoBehaviour {
     private OnGround og;
     // Use this for initialization
     private IdleState idle;
+    private RunState run;
+    private RollState roll;
+    private AttackState attack;
+    private BackstepState backstep;
+    private AirborneState airborne;
+    private ArrayList stateList = new ArrayList();
 
-	void Start () {
+    void Start () {
         idle = GetComponent<IdleState>();
+        run = GetComponent<RunState>();
+        roll = GetComponent<RollState>();
+        attack = GetComponent<AttackState>();
+        backstep = GetComponent<BackstepState>();
+        airborne = GetComponent<AirborneState>();
         state_ = idle;
         og = GetComponent<OnGround>();
         rollUsed = false;
         bStepUsed = false;
+
+        stateList.Add(idle);
+        stateList.Add(run);
+        stateList.Add(attack);
+        stateList.Add(airborne);
+        stateList.Add(roll);
+        stateList.Add(backstep);
     }
 	
 	// Update is called once per frame
@@ -28,7 +43,7 @@ public class Player : MonoBehaviour {
         if(rollUsed)
         {
             rollCDTimer += Time.deltaTime;
-            if(cooldown < rollCDTimer)
+            if(Constants.cooldownBSR < rollCDTimer)
             {
                 rollUsed = false;
             }
@@ -37,7 +52,7 @@ public class Player : MonoBehaviour {
         if(bStepUsed)
         {
             bStepCDTimer += Time.deltaTime;
-            if(cooldown < bStepCDTimer)
+            if(Constants.cooldownBSR < bStepCDTimer)
             {
                 bStepUsed = false;
             }
@@ -47,31 +62,13 @@ public class Player : MonoBehaviour {
         state_.ComponentUpdate();
 	}
 
-    public void changeState(PlayerState state)
+    public void changeState(StateEnums state)
     {
-        Debug.Log("Switch state to: " + state.name);
-        state_ = state; 
+        int s = (int)state;
+        state_ = (PlayerState)stateList[s]; 
     }
 
-    public float getSpeed()
-    {
-        return moveSpeed;
-    }
 
-    public void setSpeed(float s)
-    {
-        moveSpeed = s;
-    }
-
-    public float getJump()
-    {
-        return jumpPower;
-    }
-
-    public float getCooldown()
-    {
-        return cooldown;
-    }
 
     public void setRollCD()
     {
@@ -93,5 +90,20 @@ public class Player : MonoBehaviour {
     public bool getBStepUsed()
     {
         return bStepUsed;
+    }
+
+    public RunState getRun()
+    {
+        return run;
+    }
+
+    public RollState getRoll()
+    {
+        return roll;
+    }
+
+    public BackstepState getBack()
+    {
+        return backstep;
     }
 }

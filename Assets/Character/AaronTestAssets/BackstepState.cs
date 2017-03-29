@@ -7,9 +7,6 @@ public class BackstepState : PlayerState {
     private Rigidbody2D rgb;
     private Player play;
  //   private Animator an;
-    private float timer = 0.08f;
-    private float backStepSpeed = 5f;
-    private float backStepHeight = 0.6f;
     private float startTime;
 
     // Use this for initialization
@@ -17,21 +14,21 @@ public class BackstepState : PlayerState {
         rgb = GetComponent<Rigidbody2D>();
         play = GetComponent<Player>();
     //    an = GetComponent<Animator>();
-        idle = GetComponent<IdleState>();
-        run = GetComponent<RunState>();
+
     }
 
 
 
     public override void ComponentUpdate()
     {
-        facing = -run.getFacing();
+        facing = -play.getRun().getFacing();
 
-        rgb.AddForce(facing * Vector2.right * backStepSpeed * 1.5f + Vector2.up * backStepHeight, ForceMode2D.Impulse);
+
+        rgb.AddForce(facing * Vector2.right * Constants.backStepSpeed * 1.5f + Vector2.up * Constants.backStepHeight, ForceMode2D.Impulse);
         
-        if (Time.time - startTime > timer)
+        if (Time.time - startTime > Constants.bStepTimer)
         {
-            play.changeState(idle);
+            play.changeState(StateEnums.IdleState);
         }
         handleInput();
     }

@@ -5,17 +5,11 @@ public class PlayerState : MonoBehaviour {
 
 
     private Vector3 scale;
-    protected float direction = 1;
-    protected int facing = 1;
+    public float direction = 1; //right = 1, left = -1
+    public int facing = 1;
     protected bool grounded = false;
     protected new string name;
     protected SpriteRenderer sr;
-    protected IdleState idle;
-    protected RunState run;
-    protected RollState roll;
-    protected AttackState attack;
-    protected BackstepState backstep;
-    protected AirborneState airborne;
 
 
     //this doesn't appear to do anything...
@@ -23,12 +17,12 @@ public class PlayerState : MonoBehaviour {
     {
         //sr = gameObject.GetComponent<SpriteRenderer>();
 
+
     }
 
     // Update is called once per frame
     public virtual void Update ()
     {
-
     }
 
     public virtual void ComponentUpdate()

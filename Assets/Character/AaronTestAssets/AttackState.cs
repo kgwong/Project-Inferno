@@ -12,8 +12,7 @@ public class AttackState : PlayerState {
     void Start () {
         play = GetComponent<Player>();
         an = GetComponent<Animator>();
-        idle = GetComponent<IdleState>();
-        run = GetComponent<RunState>();
+
         
     }
 
@@ -27,7 +26,7 @@ public class AttackState : PlayerState {
     {
         if (!Input.GetButtonDown("Attack"))
         {
-            play.changeState(run);
+            play.changeState(StateEnums.RunState);
         }
     }
 

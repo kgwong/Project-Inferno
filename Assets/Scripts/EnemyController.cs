@@ -36,22 +36,27 @@ public class EnemyController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (knockback_timer > 0.2 & knockback == true)
+        // enemy starts to move at normal speed again
+        if (knockback_timer > 0.2f & knockback == true)
         {
             enemyBody.velocity = new Vector2(facing_direction * speed, 0);
             knockback = false;
             wait = true;
             knockback_timer = 0f;
         }
+
+        // add force to knock enemy back and up a little if knockback == true
         if (knockback == true)
         {
-            enemyBody.AddForce(new Vector2(1 * -facing_direction, 0), ForceMode2D.Impulse);
+            enemyBody.AddForce(new Vector2(0.5f * -facing_direction, 7.5f), ForceMode2D.Impulse);
         }
+
+        // 
         else
         {
             if (wait == true)
             {
-                if (waitTimer > 1)
+                if (waitTimer > 0.7f)
                 {
                     wait = false;
                     waitTimer = 0f;
@@ -74,7 +79,7 @@ public class EnemyController : MonoBehaviour {
         if (col.gameObject.tag == "Player")
         {
             knockback = true;
-            hp -= col.gameObject.GetComponent<FollowingEnemyController>().damage;
+            hp -= col.gameObject.GetComponent<PlayerController>().damage;
             if (hp <= 0)
             {
                 Destroy(gameObject);

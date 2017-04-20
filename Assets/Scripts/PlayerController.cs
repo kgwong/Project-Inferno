@@ -24,6 +24,11 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+        }
+
         if (knockback == true)
         {
             knockback_timer += Time.deltaTime;
@@ -57,13 +62,22 @@ public class PlayerController : MonoBehaviour {
     {
         if (col.gameObject.tag == "Enemy")
         {
-            knockback = true;
-            canMove = false;
-            hp -= col.gameObject.GetComponent<EnemyController>().damage;
+            //knockback = true;
+            //canMove = false;
+            //hp -= col.gameObject.GetComponent<EnemyController>().damage;
             if (hp <= 0)
             {
                 Destroy(gameObject);
             }
         }
+
     }
+
+    //void OnTriggerEnter2D(Collision2D col)
+    //{
+    //    if (col.gameObject.tag == "Projectile")
+    //    {
+    //        Destroy(col.gameObject);
+    //    }
+    //}
 }

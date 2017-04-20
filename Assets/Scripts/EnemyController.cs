@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour {
     private float facing_direction = -1;
     private float knockback_timer = 0f;
     private float waitTimer = 0f;
-    private bool wait = false;
+    private bool attackWait = false;
 
 	// Use this for initialization
 	void Start ()
@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour {
         {
             knockback_timer += Time.deltaTime;
         }
-        if (wait == true)
+        if (attackWait == true)
         {
             waitTimer += Time.deltaTime;
         }
@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour {
         {
             enemyBody.velocity = new Vector2(facing_direction * speed, 0);
             knockback = false;
-            wait = true;
+            attackWait = true;
             knockback_timer = 0f;
         }
 
@@ -54,11 +54,11 @@ public class EnemyController : MonoBehaviour {
         // 
         else
         {
-            if (wait == true)
+            if (attackWait == true)
             {
                 if (waitTimer > 0.7f)
                 {
-                    wait = false;
+                    attackWait = false;
                     waitTimer = 0f;
                     enemyBody.velocity = new Vector2(facing_direction * speed, 0);
                 }
@@ -88,8 +88,12 @@ public class EnemyController : MonoBehaviour {
 
         else if (col.gameObject.tag == "Wall")
         {
-            facing_direction = -facing_direction;
-            transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+            if((col.gameObject.transform.position.x > transform.position.x  & facing_direction == 1)|| (col.gameObject.transform.position.x < transform.position.x & facing_direction == -1))
+            {
+                facing_direction = -facing_direction;
+                transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+            }
+
         }
     }
 }

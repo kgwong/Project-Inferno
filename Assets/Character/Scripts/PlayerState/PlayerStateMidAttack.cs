@@ -14,6 +14,11 @@ class PlayerStateMidAttack : PlayerState
         {
             ChangeState(PlayerStateEnum.TestMidAttackCombo);
         }
+
+        else if(PlayerInput.PressedHighAttack()) //S button
+        {
+            ChangeState(PlayerStateEnum.TestHighAttackCombo);
+        }
         else
         {
             IdleIfFinished();

@@ -4,7 +4,7 @@ using System.Collections;
 
 //will probably need to put some delay inbetween rolls; travels faster than running
 
-public class RollState : PlayerState {
+public class RollState : PlayerStates {
 
     private Animator an;
     private Player play;
@@ -25,9 +25,9 @@ public class RollState : PlayerState {
         facing = play.getRun().getFacing();
         an.Play("Roll");
 
-        rgb.AddForce(Vector2.right * facing * Constants.moveSpeed * Constants.rollMLTP, ForceMode2D.Impulse);
+        rgb.AddForce(Vector2.right * facing * Constant.moveSpeed * Constant.rollMLTP, ForceMode2D.Impulse);
 
-        if (Time.time - startTime > Constants.rollTimer)
+        if (Time.time - startTime > Constant.rollTimer)
         {
             play.changeState(StateEnums.IdleState);
         }

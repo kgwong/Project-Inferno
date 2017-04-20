@@ -4,7 +4,7 @@ using System.Collections;
 
 //just an attack atm, will probably lead to 'combos' later 
 
-public class AttackState : PlayerState {
+public class AttackState : PlayerStates {
 
     private Animator an;
     private Player play;

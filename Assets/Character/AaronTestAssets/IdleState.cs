@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IdleState : PlayerState {
+public class IdleState : PlayerStates {
 
     private Animator an;
     private Player play;
@@ -49,7 +49,7 @@ public class IdleState : PlayerState {
 
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            rgb.AddForce(Vector2.up * Constants.jumpPower, ForceMode2D.Impulse);
+            rgb.AddForce(Vector2.up * Constant.jumpPower, ForceMode2D.Impulse);
             an.Play("Jump"); 
         }
         else if(Input.GetButtonDown("Roll") && grounded && !play.getRollUsed())

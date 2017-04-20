@@ -26,6 +26,10 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
+        else if (PlayerInput.PressedHighAttack())
+        {
+            ChangeState(PlayerStateEnum.TestHighAttack);
+        }
         else if (PlayerInput.HoldingMoveRight())
         {
             AnimatorCommon.FaceRight(_animator);
@@ -38,6 +42,7 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestIdle);
         }
+
 	}
 
     private bool NoLongerMovingLeft()

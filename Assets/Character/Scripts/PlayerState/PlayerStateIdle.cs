@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 
 class PlayerStateIdle : PlayerState
 {
@@ -38,6 +38,10 @@ class PlayerStateIdle : PlayerState
         else if (PlayerInput.PressedMidAttack())
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
+        }
+        else if(PlayerInput.PressedHighAttack())
+        {
+            ChangeState(PlayerStateEnum.TestHighAttack);
         }
     }
 

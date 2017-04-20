@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AirborneState : PlayerState {
+public class AirborneState : PlayerStates {
 
 
     private Player play;
@@ -33,7 +33,7 @@ public class AirborneState : PlayerState {
         //determine this based on previous speed? it is determined by how fast GetAxis ramps down from 1/-1 back to 0
         //this is the speed you get if you aren't pressing anything
         direction = Input.GetAxis("Horizontal");
-        rgb.AddForce(Vector2.right * direction * (Constants.moveSpeed), ForceMode2D.Impulse);
+        rgb.AddForce(Vector2.right * direction * (Constant.moveSpeed), ForceMode2D.Impulse);
 
         //how fast 0 goes to 1 for GetAxis determines how fast the player can pick up/change speed in the air (and therefore how far)
         //play.getSpeed() here just determines max air speed when direction is -1 or 1

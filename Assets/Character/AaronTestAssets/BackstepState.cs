@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BackstepState : PlayerState {
+public class BackstepState : PlayerStates {
 
 
     private Rigidbody2D rgb;
@@ -24,9 +24,9 @@ public class BackstepState : PlayerState {
         facing = -play.getRun().getFacing();
 
 
-        rgb.AddForce(facing * Vector2.right * Constants.backStepSpeed * 1.5f + Vector2.up * Constants.backStepHeight, ForceMode2D.Impulse);
+        rgb.AddForce(facing * Vector2.right * Constant.backStepSpeed * 1.5f + Vector2.up * Constant.backStepHeight, ForceMode2D.Impulse);
         
-        if (Time.time - startTime > Constants.bStepTimer)
+        if (Time.time - startTime > Constant.bStepTimer)
         {
             play.changeState(StateEnums.IdleState);
         }

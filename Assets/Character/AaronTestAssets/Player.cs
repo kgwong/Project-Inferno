@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-    private PlayerState state_;
+    private PlayerStates state_;
     private float rollCDTimer;
     private float bStepCDTimer;
     private bool rollUsed;
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
         if(rollUsed)
         {
             rollCDTimer += Time.deltaTime;
-            if(Constants.cooldownBSR < rollCDTimer)
+            if(Constant.cooldownBSR < rollCDTimer)
             {
                 rollUsed = false;
             }
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour {
         if(bStepUsed)
         {
             bStepCDTimer += Time.deltaTime;
-            if(Constants.cooldownBSR < bStepCDTimer)
+            if(Constant.cooldownBSR < bStepCDTimer)
             {
                 bStepUsed = false;
             }
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour {
     public void changeState(StateEnums state)
     {
         int s = (int)state;
-        state_ = (PlayerState)stateList[s]; 
+        state_ = (PlayerStates)stateList[s]; 
     }
 
 

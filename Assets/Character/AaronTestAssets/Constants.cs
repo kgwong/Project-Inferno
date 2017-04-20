@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Constants : MonoBehaviour {
+public static class Constant {
 
     //Backstep 
     public const float bStepTimer = 0.08f;

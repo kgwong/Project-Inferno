@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RunState : PlayerState {
+public class RunState : PlayerStates {
 
     private Rigidbody2D rgb;
     private Player play;
@@ -29,7 +29,7 @@ public class RunState : PlayerState {
 
 
 
-        rgb.AddForce(Vector2.right * direction * Constants.moveSpeed, ForceMode2D.Impulse);
+        rgb.AddForce(Vector2.right * direction * Constant.moveSpeed, ForceMode2D.Impulse);
         Flip();
         
 
@@ -62,7 +62,7 @@ public class RunState : PlayerState {
         if (Input.GetButtonDown("Jump") && grounded)
         {
             Debug.Log("JUMP");
-            rgb.AddForce(Vector2.up * Constants.jumpPower, ForceMode2D.Impulse);
+            rgb.AddForce(Vector2.up * Constant.jumpPower, ForceMode2D.Impulse);
             an.Play("Jump"); //gets overwritten by other states animations
         }
         if (Input.GetButton("Left"))

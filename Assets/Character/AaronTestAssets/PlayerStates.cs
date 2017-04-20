@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerState : MonoBehaviour {
+public class PlayerStates : MonoBehaviour {
 
 
     private Vector3 scale;

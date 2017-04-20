@@ -34,4 +34,9 @@ public static class PlayerInput
     {
        return Input.GetKey(KeyCode.RightArrow);
     }    
+
+    public static bool PressedHighAttack()
+    {
+        return Input.GetKeyDown(KeyCode.S);
+    }
 }

@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: c648c9c176c09794b86970b79d0e45d5
-timeCreated: 1492652879
+guid: bb69aed827c13114e971d940523c1407
+timeCreated: 1492739315
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: mid attack_0
-    21300002: mid attack_1
-    21300004: mid attack_2
+    21300000: low attack_0
+    21300002: low attack_1
+    21300004: low attack_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,41 +56,41 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mid attack_0
+      name: low attack_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 300
-        height: 200
+        y: 2
+        width: 222
+        height: 188
       alignment: 9
-      pivot: {x: 0.38522956, y: 0.47380242}
+      pivot: {x: 0.2776744, y: 0.4791639}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: mid attack_1
+      name: low attack_1
       rect:
         serializedVersion: 2
-        x: 300
+        x: 332
         y: 0
-        width: 300
-        height: 200
+        width: 255
+        height: 190
       alignment: 9
-      pivot: {x: 0.22554891, y: 0.47380242}
+      pivot: {x: 0.13054594, y: 0.5773728}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: mid attack_2
+      name: low attack_2
       rect:
         serializedVersion: 2
-        x: 600
+        x: 691
         y: 0
-        width: 300
-        height: 200
+        width: 251
+        height: 192
       alignment: 9
-      pivot: {x: 0.35528952, y: 0.47380242}
+      pivot: {x: -0.039975595, y: 0.8386714}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

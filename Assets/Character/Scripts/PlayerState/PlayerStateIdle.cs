@@ -43,6 +43,10 @@ class PlayerStateIdle : PlayerState
         {
             ChangeState(PlayerStateEnum.TestHighAttack);
         }
+        else if(PlayerInput.PressedLowAttack())
+        {
+            ChangeState(PlayerStateEnum.TestLowAttack);
+        }
     }
 
     private bool IsGrounded()

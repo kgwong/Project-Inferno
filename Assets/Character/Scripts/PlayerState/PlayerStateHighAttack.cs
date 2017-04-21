@@ -19,6 +19,10 @@ class PlayerStateHighAttack : PlayerState
         {
             ChangeState(PlayerStateEnum.TestHighAttackCombo);
         }
+        else if(PlayerInput.PressedLowAttack())
+        {
+            ChangeState(PlayerStateEnum.TestLowAttackCombo);
+        }
         else
         {
             IdleIfFinished();

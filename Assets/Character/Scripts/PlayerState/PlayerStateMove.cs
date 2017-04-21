@@ -30,6 +30,10 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestHighAttack);
         }
+        else if(PlayerInput.PressedLowAttack())
+        {
+            ChangeState(PlayerStateEnum.TestLowAttack);
+        }
         else if (PlayerInput.HoldingMoveRight())
         {
             AnimatorCommon.FaceRight(_animator);

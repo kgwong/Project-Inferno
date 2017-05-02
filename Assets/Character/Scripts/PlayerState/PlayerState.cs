@@ -6,28 +6,31 @@ class PlayerState
 	protected Animator _animator;
     protected GameObject _go;
     private HashSet<KeyPress> _input;
+    private bool _inputHandling;
 		
 	public PlayerState(Animator animator)
 	{
 		_animator = animator;
         _go = _animator.gameObject;
         _input = null;
+        _inputHandling = true;
 	}
 
 	public void Update()
 	{
         // ignore input until playing correct animation
         // potential bug -> transition to own state
-        //if (!PlayingNextAnimation())
-        //{
-        //    return;
-        //}
+        if (!PlayingNextAnimation())
+        {
+            Debug.Log("WAIT");
+            return;
+        }
         
         if (_input != null && _input.Count > 0)
         {
             HandleInput(_input);
         }
-        else if (!FinishedCurrentAnimation())
+        else if (_inputHandling && !FinishedCurrentAnimation())
         {
             _input = PlayerInput.GetInput();
         }
@@ -45,6 +48,12 @@ class PlayerState
     {
         // override this if your state should respond to input
         ChangeState(PlayerStateEnum.TestIdle);
+    }
+
+    // set false if your state doesn't need to deal with input - default transition to idle
+    protected void EnableInputHandling(bool b)
+    {
+        _inputHandling = b;
     }
 	
 	protected void ChangeState(PlayerStateEnum newState)

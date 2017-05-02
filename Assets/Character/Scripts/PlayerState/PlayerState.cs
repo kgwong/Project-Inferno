@@ -19,10 +19,8 @@ class PlayerState
 	public void Update()
 	{
         // ignore input until playing correct animation
-        // potential bug -> transition to own state
-        if (!PlayingNextAnimation())
+        if (!PlayingNextAnimation() && !FinishedCurrentAnimation())
         {
-            Debug.Log("WAIT");
             return;
         }
         
@@ -89,14 +87,19 @@ class PlayerState
         return GetStateHash(AnimatorCommon.GetState(_animator)) == GetCurrentStateHash();
 	}
 
+    protected float NormalizedTime()
+    {
+        return AnimatorCommon.NormalizedTime(_animator);
+    }
+
 	protected bool FinishedCurrentAnimation()
 	{
-		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f;// && !_animator.IsInTransition(0);
+		return NormalizedTime() >= 1.0f;// && !_animator.IsInTransition(0);
 	}
 
 	bool PlayedFirstFrameOfAnimation()
 	{
-		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0;
+		return NormalizedTime() > 0;
 	}
 
 	int GetStateHash(int state) 

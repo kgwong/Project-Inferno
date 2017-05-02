@@ -42,4 +42,9 @@ public static class AnimatorCommon
     {
         return animator.GetInteger("state");
     }
+
+    public static float NormalizedTime(Animator animator)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
 }

@@ -6,7 +6,7 @@ class PlayerStateAttackSkeleton : PlayerState
     public PlayerStateAttackSkeleton(Animator animator)
         : base(animator)
     {
-        
+        // EnableInputHandling(false) if you don't handle input        
     }
 
     protected override void HandleInput(HashSet<KeyPress> input)
@@ -31,11 +31,8 @@ class PlayerStateAttackSkeleton : PlayerState
             a. eg base.Update() will immediately transition to TestIdle, making testIdle handle input
             b. eg IdleIfFinished() will switch to idle when animation is over, allowing your state
                to continue handling input
+        8. If you do not wish for your state to handle input, EnableInputHandling(false) in 
+           the constructor. It will play its animation and transition to Idle.
         */
-
-        if (PlayerInput.PressedMidAttack())
-        {
-            ChangeState(PlayerStateEnum.TestMidAttack);
-        }
     }
 }

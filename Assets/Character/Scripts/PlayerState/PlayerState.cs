@@ -57,12 +57,6 @@ class PlayerState
 	protected void ChangeState(PlayerStateEnum newState)
 	{
         _input = null;
-
-        //if ((int)newState != AnimatorCommon.GetState(_animator))
-        //{
-        //    Debug.Log("Change State to " + (int)newState + ", currently " + _animator.GetInteger("state"));
-        //}
-
         AnimatorCommon.SetState(_animator, (int)newState);
 	}
 
@@ -96,6 +90,18 @@ class PlayerState
 	{
 		return NormalizedTime() >= 1.0f;// && !_animator.IsInTransition(0);
 	}
+
+    // Since i do this a lot when debugging
+    protected void PrintInput()
+    {
+        string s = "";
+        if (_input != null)
+        {
+            foreach (KeyPress k in _input)
+                s += k + " ";
+        }
+        Debug.Log(s);
+    }
 
 	bool PlayedFirstFrameOfAnimation()
 	{

@@ -42,16 +42,4 @@ class PlayerStateMove: PlayerState
             ChangeState(PlayerStateEnum.TestIdle);
         }
 	}
-
-    private bool NoLongerMovingLeft()
-    {
-        bool facingRight = AnimatorCommon.FacingRight(_animator);
-        return !facingRight && !PlayerInput.HoldingMoveLeft();
-    }
-
-    private bool NoLongerMovingRight()
-    {
-        bool facingRight = AnimatorCommon.FacingRight(_animator);
-        return facingRight && !PlayerInput.HoldingMoveRight();
-    }
 }

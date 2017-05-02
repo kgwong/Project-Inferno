@@ -1,25 +1,61 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerState
 {
 	protected Animator _animator;
     protected GameObject _go;
+    private HashSet<KeyPress> _input;
 		
 	public PlayerState(Animator animator)
 	{
 		_animator = animator;
         _go = _animator.gameObject;
+        _input = null;
 	}
-	public virtual void Update()
+
+	public void Update()
 	{
-		// always let next animation play for a frame before switching state
-		// "Has Exit Time" will determine if we immediately switch or not
-		if (NextAnimationStarted())
-			ChangeState(PlayerStateEnum.TestIdle);
+        // ignore input until playing correct animation
+        // potential bug -> transition to own state
+        //if (!PlayingNextAnimation())
+        //{
+        //    return;
+        //}
+        
+        if (_input != null && _input.Count > 0)
+        {
+            HandleInput(_input);
+        }
+        else if (!FinishedCurrentAnimation())
+        {
+            _input = PlayerInput.GetInput();
+        }
+        else if (AnimatorCommon.GetState(_animator) == (int)PlayerStateEnum.TestIdle)
+        {
+            AnimatorCommon.RestartCurrentAnimation(_animator);
+        }
+        else
+        {
+            ChangeState(PlayerStateEnum.TestIdle);
+        }
 	}
+
+    protected virtual void HandleInput(HashSet<KeyPress> input)
+    {
+        // override this if your state should respond to input
+        ChangeState(PlayerStateEnum.TestIdle);
+    }
 	
 	protected void ChangeState(PlayerStateEnum newState)
 	{
+        _input = null;
+
+        //if ((int)newState != AnimatorCommon.GetState(_animator))
+        //{
+        //    Debug.Log("Change State to " + (int)newState + ", currently " + _animator.GetInteger("state"));
+        //}
+
         AnimatorCommon.SetState(_animator, (int)newState);
 	}
 
@@ -46,7 +82,7 @@ class PlayerState
 
 	protected bool FinishedCurrentAnimation()
 	{
-		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f && !_animator.IsInTransition(0);
+		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f;// && !_animator.IsInTransition(0);
 	}
 
 	bool PlayedFirstFrameOfAnimation()

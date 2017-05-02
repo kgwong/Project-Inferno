@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateAttackSkeleton : PlayerState
 {
@@ -8,7 +9,7 @@ class PlayerStateAttackSkeleton : PlayerState
         
     }
 
-    public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
     {
         /*
         To add an attack state:
@@ -35,12 +36,6 @@ class PlayerStateAttackSkeleton : PlayerState
         if (PlayerInput.PressedMidAttack())
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
-        }
-        else
-        {
-            base.Update();
-            
-            //IdleIfFinished();
         }
     }
 }

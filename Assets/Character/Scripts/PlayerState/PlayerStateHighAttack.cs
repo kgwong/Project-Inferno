@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateHighAttack : PlayerState
 {
@@ -8,7 +9,7 @@ class PlayerStateHighAttack : PlayerState
 
     }
 
-    public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
     {
 
     }

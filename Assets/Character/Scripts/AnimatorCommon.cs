@@ -32,6 +32,12 @@ public static class AnimatorCommon
         animator.SetInteger("state", val);
     }
 
+    public static void RestartCurrentAnimation(Animator animator)
+    {
+        string name = ((PlayerStateEnum)GetState(animator)).ToString();
+        animator.Play(name, -1, 0);
+    }
+
 	public static int GetState(Animator animator)
     {
         return animator.GetInteger("state");

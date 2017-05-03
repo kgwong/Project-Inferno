@@ -22,7 +22,15 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }
-		else if (PlayerInput.PressedMidAttack())
+		else if (PlayerInput.PressedLowAttack())
+        {
+            ChangeState(PlayerStateEnum.TestLowAttack);
+        }
+        else if (PlayerInput.PressedHighAttack())
+        {
+            ChangeState(PlayerStateEnum.TestHighAttack);
+        }
+        else if(PlayerInput.PressedMidAttack())
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
@@ -38,6 +46,7 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestIdle);
         }
+
 	}
 
     private bool NoLongerMovingLeft()

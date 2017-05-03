@@ -9,6 +9,7 @@ class PlayerStateIdle : PlayerState
 
     public override void Update()
     {
+        Debug.Log(Input.GetAxis("RjoystickX"));
         // If a default case fell here, don't respond to input until done with animation
         if (!PlayingNextAnimation())
         {
@@ -23,7 +24,7 @@ class PlayerStateIdle : PlayerState
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
-        else if (PlayerInput.PressedMoveLeft() || PlayerInput.HoldingMoveLeft())
+        else if (PlayerInput.PressedMoveLeft() || PlayerInput.HoldingMoveLeft()) //do we want to add joystick sensitivity?
         {
             // unflipped = facing right
             ChangeState(PlayerStateEnum.TestMove);
@@ -35,17 +36,17 @@ class PlayerStateIdle : PlayerState
             ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceRight(_animator);
         }
-        else if (PlayerInput.PressedMidAttack())
+        else if (PlayerInput.PressedLowAttack())
         {
-            ChangeState(PlayerStateEnum.TestMidAttack);
+            ChangeState(PlayerStateEnum.TestLowAttack);
         }
         else if(PlayerInput.PressedHighAttack())
         {
             ChangeState(PlayerStateEnum.TestHighAttack);
         }
-        else if(PlayerInput.PressedLowAttack())
+        else if(PlayerInput.PressedMidAttack())
         {
-            ChangeState(PlayerStateEnum.TestLowAttack);
+            ChangeState(PlayerStateEnum.TestMidAttack);
         }
     }
 

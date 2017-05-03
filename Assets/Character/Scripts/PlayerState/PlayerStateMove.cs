@@ -22,17 +22,17 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }
-		else if (PlayerInput.PressedMidAttack())
+		else if (PlayerInput.PressedLowAttack())
         {
-            ChangeState(PlayerStateEnum.TestMidAttack);
+            ChangeState(PlayerStateEnum.TestLowAttack);
         }
         else if (PlayerInput.PressedHighAttack())
         {
             ChangeState(PlayerStateEnum.TestHighAttack);
         }
-        else if(PlayerInput.PressedLowAttack())
+        else if(PlayerInput.PressedMidAttack())
         {
-            ChangeState(PlayerStateEnum.TestLowAttack);
+            ChangeState(PlayerStateEnum.TestMidAttack);
         }
         else if (PlayerInput.HoldingMoveRight())
         {

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateJump : PlayerState
 {
@@ -8,16 +9,17 @@ class PlayerStateJump : PlayerState
 
     }
 
-    public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
     {
-        bool pressMove = PlayerInput.HoldingMoveLeft() || PlayerInput.HoldingMoveRight();
-        if (pressMove) 
-        {
-            ChangeState(PlayerStateEnum.TestAirborneMove);
-        }
-		else if (NextAnimationStarted())
-        {
-            ChangeState(PlayerStateEnum.TestIdle);
-        }
+        ChangeState(PlayerStateEnum.TestIdle);
+        //bool pressMove = input.Contains(KeyPress.MoveLeft) || input.Contains(KeyPress.MoveRight);
+        //if (pressMove) 
+        //{
+        //    ChangeState(PlayerStateEnum.TestAirborneMove);
+        //}
+		//else if (FinishedCurrentAnimation())
+        //{
+        //    ChangeState(PlayerStateEnum.TestIdle);
+        //}
     }
 }

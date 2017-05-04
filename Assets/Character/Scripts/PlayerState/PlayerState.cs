@@ -7,6 +7,8 @@ class PlayerState
     protected GameObject _go;
     private HashSet<KeyPress> _input;
     private bool _inputHandling;
+    private bool _selfTransition;
+
 		
 	public PlayerState(Animator animator)
 	{
@@ -14,6 +16,7 @@ class PlayerState
         _go = _animator.gameObject;
         _input = null;
         _inputHandling = true;
+        _selfTransition = false;
 	}
 
 	public void Update()
@@ -23,7 +26,7 @@ class PlayerState
         {
             return;
         }
-        
+
         if (_input != null && _input.Count > 0)
         {
             HandleInput(_input);
@@ -32,9 +35,10 @@ class PlayerState
         {
             _input = PlayerInput.GetInput();
         }
-        else if (AnimatorCommon.GetState(_animator) == (int)PlayerStateEnum.TestIdle)
+        else if (_selfTransition)
         {
             AnimatorCommon.RestartCurrentAnimation(_animator);
+            _selfTransition = false;
         }
         else
         {
@@ -56,7 +60,9 @@ class PlayerState
 	
 	protected void ChangeState(PlayerStateEnum newState)
 	{
+        // Calling ChangeState(self) in move destroyed input
         _input = null;
+        _selfTransition = ((int)newState == AnimatorCommon.GetState(_animator));
         AnimatorCommon.SetState(_animator, (int)newState);
 	}
 
@@ -88,7 +94,7 @@ class PlayerState
 
 	protected bool FinishedCurrentAnimation()
 	{
-		return NormalizedTime() >= 1.0f;// && !_animator.IsInTransition(0);
+		return NormalizedTime() >= 1.0f && !_animator.IsInTransition(0);
 	}
 
     // Since i do this a lot when debugging

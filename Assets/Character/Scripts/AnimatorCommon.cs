@@ -35,7 +35,7 @@ public static class AnimatorCommon
     public static void RestartCurrentAnimation(Animator animator)
     {
         string name = ((PlayerStateEnum)GetState(animator)).ToString();
-        animator.Play(name, -1, 0);
+        animator.Play(name, -1, 0f);
     }
 
 	public static int GetState(Animator animator)

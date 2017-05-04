@@ -37,9 +37,5 @@ class PlayerStateMove: PlayerState
             ChangeState(PlayerStateEnum.TestMove);
 			AnimatorCommon.FaceLeft(_animator);
         }
-        else
-        {
-            ChangeState(PlayerStateEnum.TestIdle);
-        }
 	}
 }

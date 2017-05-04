@@ -27,7 +27,7 @@ class PlayerState
             return;
         }
 
-        if (_input != null && _input.Count > 0)
+        if (_input != null && _input.Count > 0 && !FinishedCurrentAnimation())
         {
             HandleInput(_input);
         }

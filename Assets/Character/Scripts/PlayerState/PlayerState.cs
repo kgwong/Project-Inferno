@@ -1,25 +1,68 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerState
 {
 	protected Animator _animator;
     protected GameObject _go;
+    private HashSet<KeyPress> _input;
+    private bool _inputHandling;
+    private bool _selfTransition;
+
 		
 	public PlayerState(Animator animator)
 	{
 		_animator = animator;
         _go = _animator.gameObject;
+        _input = null;
+        _inputHandling = true;
+        _selfTransition = false;
 	}
-	public virtual void Update()
+
+	public void Update()
 	{
-		// always let next animation play for a frame before switching state
-		// "Has Exit Time" will determine if we immediately switch or not
-		if (NextAnimationStarted())
-			ChangeState(PlayerStateEnum.TestIdle);
+        // ignore input until playing correct animation
+        if (!PlayingNextAnimation() && !FinishedCurrentAnimation())
+        {
+            return;
+        }
+
+        if (_input != null && _input.Count > 0 && !FinishedCurrentAnimation())
+        {
+            HandleInput(_input);
+        }
+        else if (_inputHandling && !FinishedCurrentAnimation())
+        {
+            _input = PlayerInput.GetInput();
+        }
+        else if (_selfTransition)
+        {
+            AnimatorCommon.RestartCurrentAnimation(_animator);
+            _selfTransition = false;
+        }
+        else
+        {
+            ChangeState(PlayerStateEnum.TestIdle);
+        }
 	}
+
+    protected virtual void HandleInput(HashSet<KeyPress> input)
+    {
+        // override this if your state should respond to input
+        ChangeState(PlayerStateEnum.TestIdle);
+    }
+
+    // set false if your state doesn't need to deal with input - default transition to idle
+    protected void EnableInputHandling(bool b)
+    {
+        _inputHandling = b;
+    }
 	
 	protected void ChangeState(PlayerStateEnum newState)
 	{
+        // Calling ChangeState(self) in move destroyed input
+        _input = null;
+        _selfTransition = ((int)newState == AnimatorCommon.GetState(_animator));
         AnimatorCommon.SetState(_animator, (int)newState);
 	}
 
@@ -44,14 +87,31 @@ class PlayerState
         return GetStateHash(AnimatorCommon.GetState(_animator)) == GetCurrentStateHash();
 	}
 
+    protected float NormalizedTime()
+    {
+        return AnimatorCommon.NormalizedTime(_animator);
+    }
+
 	protected bool FinishedCurrentAnimation()
 	{
-		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f && !_animator.IsInTransition(0);
+		return NormalizedTime() >= 1.0f && !_animator.IsInTransition(0);
 	}
+
+    // Since i do this a lot when debugging
+    protected void PrintInput()
+    {
+        string s = "";
+        if (_input != null)
+        {
+            foreach (KeyPress k in _input)
+                s += k + " ";
+        }
+        Debug.Log(s);
+    }
 
 	bool PlayedFirstFrameOfAnimation()
 	{
-		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0;
+		return NormalizedTime() > 0;
 	}
 
 	int GetStateHash(int state) 

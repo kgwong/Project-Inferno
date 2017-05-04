@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateRoll : PlayerState
 {
@@ -10,18 +11,18 @@ class PlayerStateRoll : PlayerState
         timeLeft = Constants.ROLL_TIME;
     }
 
-    public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
     {
         if ((timeLeft -= Time.deltaTime) > 0f)
             return;
 
-		if (PlayerInput.PressedMoveRight())
+		if (input.Contains(KeyPress.MoveRight))
         {
             ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceRight(_animator);
             timeLeft = Constants.ROLL_TIME;
         }
-		else if (PlayerInput.PressedMoveLeft())
+		else if (input.Contains(KeyPress.MoveLeft))
         {
             ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceLeft(_animator);

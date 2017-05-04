@@ -5,9 +5,13 @@ using UnityEngine.UI;
 public class PlayerGUIUpdater : MonoBehaviour {
 
     private Health playerHealth;
-    public Image healthBar;
+    private Stamina playerStamina;
 
-    
+
+    public Image healthBar; //GUI bars are inserted manually from editor. Can't locate them otherwise.
+    public Image staminaBar;
+
+   
 
     // Use this for initialization
     void Start()
@@ -22,4 +26,9 @@ public class PlayerGUIUpdater : MonoBehaviour {
         print(playerHealth.healthPercent());
         healthBar.fillAmount = (playerHealth.healthPercent());
 	}
+
+    public void updateStaminaBar()
+    {
+        staminaBar.fillAmount = (playerStamina.staminaPercent());
+    }
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 
 class PlayerStateIdle : PlayerState
 {
@@ -14,16 +14,24 @@ class PlayerStateIdle : PlayerState
         {
             return;
         }
-
-        if (PlayerInput.PressedRoll())
+        float roll_direction = PlayerInput.PressedRoll();
+        if (roll_direction != 0)
         {
+            if (roll_direction > 0)
+            {
+                AnimatorCommon.FaceRight(_animator);
+            }
+            else
+            {
+                AnimatorCommon.FaceLeft(_animator);
+            }
             ChangeState(PlayerStateEnum.TestRoll);
         }
         else if (PlayerInput.PressedJump() && IsGrounded())
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
-        else if (PlayerInput.PressedMoveLeft() || PlayerInput.HoldingMoveLeft())
+        else if (PlayerInput.PressedMoveLeft() || PlayerInput.HoldingMoveLeft()) //do we want to add joystick sensitivity?
         {
             // unflipped = facing right
             ChangeState(PlayerStateEnum.TestMove);
@@ -35,7 +43,15 @@ class PlayerStateIdle : PlayerState
             ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceRight(_animator);
         }
-        else if (PlayerInput.PressedMidAttack())
+        else if (PlayerInput.PressedLowAttack())
+        {
+            ChangeState(PlayerStateEnum.TestLowAttack);
+        }
+        else if(PlayerInput.PressedHighAttack())
+        {
+            ChangeState(PlayerStateEnum.TestHighAttack);
+        }
+        else if(PlayerInput.PressedMidAttack())
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }

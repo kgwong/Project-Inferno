@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 08e7474d509f1664f82b169adb8a7850
-timeCreated: 1477420300
+timeCreated: 1495068010
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -58,12 +58,12 @@ TextureImporter:
       name: idleDirection_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 70
         y: 0
-        width: 250
-        height: 200
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 158
+        height: 160
+      alignment: 9
+      pivot: {x: 0.49979365, y: 0.57784426}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -71,12 +71,12 @@ TextureImporter:
       name: idleDirection_1
       rect:
         serializedVersion: 2
-        x: 250
+        x: 229
         y: 0
-        width: 250
-        height: 200
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 171
+        height: 160
+      alignment: 9
+      pivot: {x: 0.5436077, y: 0.48097354}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

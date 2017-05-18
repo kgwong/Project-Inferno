@@ -10,6 +10,8 @@ class PlayerStateMove: PlayerState
 
 	public override void Update()
 	{
+        Debug.Log(CollisionCommon.IsGrounded(_go));
+        float roll_direction = PlayerInput.PressedRoll();
         if (!CollisionCommon.IsGrounded(_go))
         {
             ChangeState(PlayerStateEnum.TestAirborneMove);
@@ -18,11 +20,27 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
-		else if (PlayerInput.PressedRoll())
+        else if (roll_direction != 0)
         {
+            if (roll_direction > 0)
+            {
+                AnimatorCommon.FaceRight(_animator);
+            }
+            else
+            {
+                AnimatorCommon.FaceLeft(_animator);
+            }
             ChangeState(PlayerStateEnum.TestRoll);
         }
-		else if (PlayerInput.PressedMidAttack())
+        else if (PlayerInput.PressedLowAttack())
+        {
+            ChangeState(PlayerStateEnum.TestLowAttack);
+        }
+        else if (PlayerInput.PressedHighAttack())
+        {
+            ChangeState(PlayerStateEnum.TestHighAttack);
+        }
+        else if(PlayerInput.PressedMidAttack())
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
@@ -38,6 +56,7 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestIdle);
         }
+
 	}
 
     private bool NoLongerMovingLeft()

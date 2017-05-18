@@ -10,17 +10,19 @@ class PlayerStateAirborneMove : PlayerState
 
     protected override void HandleInput(HashSet<KeyPress> input)
     {
-        if (CollisionCommon.IsGrounded(_go))
+        if (CollisionCommon.IsGrounded(_player))
         {
             ChangeState(PlayerStateEnum.TestIdle);
         }
         else if (input.Contains(KeyPress.MoveLeft))
         {
             AnimatorCommon.FaceLeft(_animator);
+            ChangeState(PlayerStateEnum.TestAirborneMove);
         }
         else if (input.Contains(KeyPress.MoveRight))
         {
             AnimatorCommon.FaceRight(_animator);
+            ChangeState(PlayerStateEnum.TestAirborneMove);
         }
     }
 

@@ -4,18 +4,18 @@ using System.Collections.Generic;
 class PlayerState
 {
 	protected Animator _animator;
-    protected GameObject _go;
-    private HashSet<KeyPress> _input;
-    private bool _inputHandling;
+    protected GameObject _player;
+    private HashSet<KeyPress> _playerInput;
+    private bool _playerInputHandling;
     private bool _selfTransition;
 
 		
 	public PlayerState(Animator animator)
 	{
 		_animator = animator;
-        _go = _animator.gameObject;
-        _input = null;
-        _inputHandling = true;
+        _player = _animator.gameObject;
+        _playerInput = null;
+        _playerInputHandling = true;
         _selfTransition = false;
 	}
 
@@ -27,13 +27,13 @@ class PlayerState
             return;
         }
 
-        if (_input != null && _input.Count > 0 && !FinishedCurrentAnimation())
+        if (_playerInput != null && _playerInput.Count > 0 && !FinishedCurrentAnimation())
         {
-            HandleInput(_input);
+            HandleInput(_playerInput);
         }
-        else if (_inputHandling && !FinishedCurrentAnimation())
+        else if (_playerInputHandling && !FinishedCurrentAnimation())
         {
-            _input = PlayerInput.GetInput();
+            _playerInput = PlayerInput.GetInput();
         }
         else if (_selfTransition)
         {
@@ -55,13 +55,12 @@ class PlayerState
     // set false if your state doesn't need to deal with input - default transition to idle
     protected void EnableInputHandling(bool b)
     {
-        _inputHandling = b;
+        _playerInputHandling = b;
     }
 	
 	protected void ChangeState(PlayerStateEnum newState)
 	{
-        // Calling ChangeState(self) in move destroyed input
-        _input = null;
+        _playerInput = null;
         _selfTransition = ((int)newState == AnimatorCommon.GetState(_animator));
         AnimatorCommon.SetState(_animator, (int)newState);
 	}
@@ -101,9 +100,9 @@ class PlayerState
     protected void PrintInput()
     {
         string s = "";
-        if (_input != null)
+        if (_playerInput != null)
         {
-            foreach (KeyPress k in _input)
+            foreach (KeyPress k in _playerInput)
                 s += k + " ";
         }
         Debug.Log(s);

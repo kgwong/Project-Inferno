@@ -19,13 +19,13 @@ public static class PlayerInput
 
     private static bool Pressed(KeyPress k)
     {
-        if (k == KeyPress.MoveLeft || k == KeyPress.MoveRight)
+        switch (k)
         {
-            return Input.GetButton(k.ToString());
-        }
-        else
-        {
-            return Input.GetButtonDown(k.ToString());
+            case KeyPress.MoveLeft:
+            case KeyPress.MoveRight:
+                return Input.GetButton(k.ToString());
+            default:
+                return Input.GetButtonDown(k.ToString());
         }
     }
 }

@@ -38,6 +38,6 @@ class PlayerStateIdle : PlayerState
 
     private bool IsGrounded()
     {
-        return CollisionCommon.IsGrounded(_go);
+        return CollisionCommon.IsGrounded(_player);
     }
 }

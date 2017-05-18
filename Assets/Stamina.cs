@@ -1,54 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Stamina : MonoBehaviour {
+public class Stamina : StatusBar {
 
-    public int maxStamina;
-    private int currentStamina;
-	// Use this for initialization
-	void Start ()
+	// Use StatusBar constructor to initialize.
+    public Stamina()
     {
-        currentStamina = maxStamina;
-	    
-	}
 
-    public void add(int amount)
-    {
-        if (amount + currentStamina <= maxStamina)
-        {
-            currentStamina += amount;
-        }
-        else
-        {
-            currentStamina = maxStamina;
-        }
     }
 
-    public void subtract(int amount)
+    public Stamina(int maxStamina) : base (maxStamina)
     {
-        if (currentStamina - amount >= 0)
-        {
-            currentStamina -= amount;
-        }
-        else
-        {
-            currentStamina = 0;
-            print("out of stamina");
-        }
-    }
 
-    public int getMaxStamina()
-    {
-        return maxStamina;
-    }
-
-    public int getCurrentStamina()
-    {
-        return currentStamina;
-    }
-	// Update is called once per frame
-    public float staminaPercent()
-    {
-        return currentStamina / maxStamina;
     }
 }

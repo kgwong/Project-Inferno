@@ -13,11 +13,11 @@ public class PlayerStates : MonoBehaviour {
 
 	}
 
-    public void death ()
+    public void Ondeath ()
     {
         //respawn, reset hp/stamina, etc.
-        playerHealth.add(playerHealth.getMaxHealth());
-        playerStamina.add(playerStamina.getMaxStamina());
+        playerHealth.reset();
+        playerStamina.reset();
     }
 	
 	// Update is called once per frame

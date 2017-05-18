@@ -16,19 +16,22 @@ public class PlayerGUIUpdater : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        playerHealth = GetComponent<Health>();
+        playerHealth = new Health(100);
+        playerStamina = new Stamina(100);
+        
+
       
     }
 	
 	// Update is called once per frame
 	public void updateHealthBar ()
     {
-        print(playerHealth.healthPercent());
-        healthBar.fillAmount = (playerHealth.healthPercent());
+        print(playerHealth.percent());
+        healthBar.fillAmount = (playerHealth.percent());
 	}
 
     public void updateStaminaBar()
     {
-        staminaBar.fillAmount = (playerStamina.staminaPercent());
+        staminaBar.fillAmount = (playerStamina.percent());
     }
 }

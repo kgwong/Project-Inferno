@@ -50,5 +50,7 @@ public class PlayerStateController : MonoBehaviour
 		_states.Add(PlayerStateEnum.TestMidAttackCombo, new PlayerStateMidCombo(_animator));
         _states.Add(PlayerStateEnum.TestJump, new PlayerStateJump(_animator));
         _states.Add(PlayerStateEnum.TestAirborneMove, new PlayerStateAirborneMove(_animator));
+        _states.Add(PlayerStateEnum.TestHighAttackCombo, new PlayerStateHighCombo(_animator));
+        _states.Add(PlayerStateEnum.TestLowAttackCombo, new PlayerStateLowCombo(_animator));
 	}
 }

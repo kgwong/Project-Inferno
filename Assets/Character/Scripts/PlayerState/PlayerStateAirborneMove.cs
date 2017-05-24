@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateAirborneMove : PlayerState
 {
@@ -7,19 +8,21 @@ class PlayerStateAirborneMove : PlayerState
     {
     }
 
-    public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
     {
-        if (CollisionCommon.IsGrounded(_go))
+        if (CollisionCommon.IsGrounded(_player))
         {
             ChangeState(PlayerStateEnum.TestIdle);
         }
-        else if (PlayerInput.PressedMoveLeft() || PlayerInput.HoldingMoveLeft())
+        else if (input.Contains(KeyPress.MoveLeft))
         {
             AnimatorCommon.FaceLeft(_animator);
+            ChangeState(PlayerStateEnum.TestAirborneMove);
         }
-        else if (PlayerInput.PressedMoveRight() || PlayerInput.HoldingMoveRight())
+        else if (input.Contains(KeyPress.MoveRight))
         {
             AnimatorCommon.FaceRight(_animator);
+            ChangeState(PlayerStateEnum.TestAirborneMove);
         }
     }
 

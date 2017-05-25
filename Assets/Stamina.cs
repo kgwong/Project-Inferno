@@ -13,18 +13,4 @@ public class Stamina : StatusBar {
     {
 
     }
-
-    public bool staminaAvailable(int cost)
-    {
-        int remainingStamina = getRemaining();
-        if (cost > remainingStamina)
-        {
-            depleteStatus();
-            print("attack stopped: lack of stamina");
-        }
-        return cost <= remainingStamina;
-    }
-
-
-
 }

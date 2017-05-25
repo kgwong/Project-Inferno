@@ -23,11 +23,6 @@ public class StatusBar : MonoBehaviour {
         current = max;
     }
 
-    public void depleteStatus()
-    {
-        current = 0;
-    }
-
     public void subtract(int amount)
     {
         if (current - amount >= 0)
@@ -36,7 +31,7 @@ public class StatusBar : MonoBehaviour {
         }
         else
         {
-            depleteStatus();
+            current = 0;
             print("status depleted");
         }
     }

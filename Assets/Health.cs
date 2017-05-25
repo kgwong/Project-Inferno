@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Health : StatusBar {
 
-	
+	// Use this for initialization
     public Health()
     {
 

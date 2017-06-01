@@ -21,7 +21,7 @@ public class PlayerGUIUpdater : MonoBehaviour {
       
     }
 	
-	// Update is called once per frame
+	
 	public void updateHealthBar ()
     {
         print(playerHealth.percent());

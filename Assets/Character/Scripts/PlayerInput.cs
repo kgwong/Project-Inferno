@@ -4,7 +4,7 @@ public static class PlayerInput
 {
     public static float PressedRoll() //C
     {
-        if (Input.GetButtonDown("Roll") && Input.GetAxis("RjoystickX") != 0)
+        if (Input.GetButtonDown("Roll/Backstep") && Input.GetAxis("RjoystickX") != 0)
         {
             float direction = Input.GetAxis("RjoystickX");
             return direction;
@@ -18,12 +18,12 @@ public static class PlayerInput
 
     public static bool PressedMidAttack() 
     {
-        return Input.GetKeyDown(KeyCode.A) || Input.GetButtonDown("Attack");
+        return Input.GetButtonDown("Attack");
     }
 
     public static bool PressedJump()
     {
-        return Input.GetKey(KeyCode.B) || Input.GetButtonDown("Jump");
+        return Input.GetButtonDown("Jump");
     }
     public static bool PressedMoveLeft()
     {
@@ -56,6 +56,6 @@ public static class PlayerInput
 
     public static bool PressedBackstep()
     {
-        return Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown("Roll");
+        return Input.GetButtonDown("Roll/Backstep");
     }
 }

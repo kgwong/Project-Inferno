@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
 			case PlayerStateEnum.TestRoll:
                 _rb.AddRelativeForce(transform.right * Constants.BASE_ROLL_SPEED * dir);
 				break;
+            case PlayerStateEnum.TestBackstep:
+                _rb.AddRelativeForce(Vector2.right * Constants.BACKSTEP_SPEED * 1.5f + Vector2.up * Constants.BACKSTEP_HEIGHT, ForceMode2D.Impulse);
+                break;
 		}
 	}
 }

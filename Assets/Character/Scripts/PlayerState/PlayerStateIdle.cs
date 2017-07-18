@@ -1,4 +1,5 @@
-﻿ using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateIdle : PlayerState
 {
@@ -7,7 +8,7 @@ class PlayerStateIdle : PlayerState
     {
     }    
 
-    public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
     {
         // If a default case fell here, don't respond to input until done with animation
         if (!PlayingNextAnimation())
@@ -27,7 +28,7 @@ class PlayerStateIdle : PlayerState
             }
             ChangeState(PlayerStateEnum.TestRoll);
         }
-        else if (PlayerInput.PressedJump() && IsGrounded())
+        else if (input.Contains(KeyPress.Jump) && IsGrounded())
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
@@ -37,7 +38,7 @@ class PlayerStateIdle : PlayerState
             ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceLeft(_animator);
         }
-        else if (PlayerInput.PressedMoveRight() || PlayerInput.HoldingMoveRight())
+        else if (input.Contains(KeyPress.MoveRight))
         {
             // unflipped = facing right
             ChangeState(PlayerStateEnum.TestMove);
@@ -52,13 +53,13 @@ class PlayerStateIdle : PlayerState
             ChangeState(PlayerStateEnum.TestHighAttack);
         }
         else if(PlayerInput.PressedMidAttack())
-        {
+		{
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
     }
 
     private bool IsGrounded()
     {
-        return CollisionCommon.IsGrounded(_go);
+        return CollisionCommon.IsGrounded(_player);
     }
 }

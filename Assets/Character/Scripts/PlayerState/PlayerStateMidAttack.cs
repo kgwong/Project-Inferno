@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateMidAttack : PlayerState
 {
@@ -8,7 +9,7 @@ class PlayerStateMidAttack : PlayerState
 
     }
 
-    public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
     {
 		if (PlayerInput.PressedLowAttack())
         {
@@ -20,12 +21,9 @@ class PlayerStateMidAttack : PlayerState
             ChangeState(PlayerStateEnum.TestHighAttackCombo);
         }
         else if(PlayerInput.PressedMidAttack())
+	//	if (input.Contains(KeyPress.MidAttack))
         {
             ChangeState(PlayerStateEnum.TestMidAttackCombo);
-        }
-        else
-        {
-            IdleIfFinished();
         }
     }
 }

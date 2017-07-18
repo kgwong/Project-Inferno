@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateMove: PlayerState
 {
@@ -8,19 +9,20 @@ class PlayerStateMove: PlayerState
 
 	}
 
-	public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
 	{
-        Debug.Log(CollisionCommon.IsGrounded(_go));
         float roll_direction = PlayerInput.PressedRoll();
         if (!CollisionCommon.IsGrounded(_go))
+        //if (!CollisionCommon.IsGrounded(_player))
         {
             ChangeState(PlayerStateEnum.TestAirborneMove);
         }
-        else if (PlayerInput.PressedJump())
+        else if (input.Contains(KeyPress.Jump))
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
         else if (roll_direction != 0)
+		//else if (input.Contains(KeyPress.Roll))
         {
             if (roll_direction > 0)
             {
@@ -41,15 +43,18 @@ class PlayerStateMove: PlayerState
             ChangeState(PlayerStateEnum.TestHighAttack);
         }
         else if(PlayerInput.PressedMidAttack())
+		//else if (input.Contains(KeyPress.MidAttack))
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
-        else if (PlayerInput.HoldingMoveRight())
+        else if (input.Contains(KeyPress.MoveRight))
         {
+            ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceRight(_animator);
         }
-        else if (PlayerInput.HoldingMoveLeft())
+        else if (input.Contains(KeyPress.MoveLeft))
         {
+            ChangeState(PlayerStateEnum.TestMove);
 			AnimatorCommon.FaceLeft(_animator);
         }
         else if (NoLongerMovingLeft() || NoLongerMovingRight()) 
@@ -58,16 +63,4 @@ class PlayerStateMove: PlayerState
         }
 
 	}
-
-    private bool NoLongerMovingLeft()
-    {
-        bool facingRight = AnimatorCommon.FacingRight(_animator);
-        return !facingRight && !PlayerInput.HoldingMoveLeft();
-    }
-
-    private bool NoLongerMovingRight()
-    {
-        bool facingRight = AnimatorCommon.FacingRight(_animator);
-        return facingRight && !PlayerInput.HoldingMoveRight();
-    }
 }

@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 public class LevelLoader : MonoBehaviour {
 
 	// Currently still testing level loading.
-	void Start () {
-        print("loading level");
+
+    public void loadFirstLevel()
+    {
+        SceneManager.LoadScene(2);
+    }
+	
+    public void loadDeathScreen()
+    {
         SceneManager.LoadScene(1);
-	
-	}
-	
+    }
 }

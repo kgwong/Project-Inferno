@@ -5,7 +5,8 @@ public class PlayerStates : MonoBehaviour {
 
     Health playerHealth;
     Stamina playerStamina;
-	// Use this for initialization
+    LevelLoader levelLoader;
+	// will have a variable for checkpoint. Access LevelLoader to load levels from here.
 	void Start ()
     {
         playerHealth = GetComponent<Health>();
@@ -16,6 +17,7 @@ public class PlayerStates : MonoBehaviour {
     public void Ondeath ()
     {
         //respawn, reset hp/stamina, etc.
+        levelLoader.loadDeathScreen();
         playerHealth.reset();
         playerStamina.reset();
     }

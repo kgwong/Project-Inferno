@@ -26,6 +26,7 @@ public class StatusBar : MonoBehaviour {
     public void depleteStatus()
     {
         current = 0;
+        print("status depleted");
     }
 
     public void subtract(int amount)
@@ -36,8 +37,7 @@ public class StatusBar : MonoBehaviour {
         }
         else
         {
-            depleteStatus();
-            print("status depleted");
+            depleteStatus();       
         }
     }
 

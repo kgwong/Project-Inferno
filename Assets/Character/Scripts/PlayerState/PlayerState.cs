@@ -8,6 +8,8 @@ class PlayerState
     private HashSet<KeyPress> _playerInput;
     private bool _playerInputHandling;
     private bool _selfTransition;
+    private Stamina _stamina;
+    private float _staminaRechargeTime;
 
 		
 	public PlayerState(Animator animator)
@@ -17,11 +19,18 @@ class PlayerState
         _playerInput = null;
         _playerInputHandling = true;
         _selfTransition = false;
+        _stamina = _player.GetComponent<Stamina>();
+        _staminaRechargeTime = Constants.PLAYER_STAMINA_CHARGE_TIME;
+        
+        // Stamina and health are 0 by default
+        _stamina.reset(); 
+        _player.GetComponent<Health>().reset();
 	}
 
 	public void Update()
 	{
         // ignore input until playing correct animation
+        RechargeStamina();
         if (!PlayingNextAnimation() && !FinishedCurrentAnimation())
         {
             return;
@@ -61,9 +70,29 @@ class PlayerState
 	protected void ChangeState(PlayerStateEnum newState)
 	{
         _playerInput = null;
-        _selfTransition = ((int)newState == AnimatorCommon.GetState(_animator));
-        AnimatorCommon.SetState(_animator, (int)newState);
+        int cost = Constants.GetStaminaCost(newState);
+
+        if (cost <= _stamina.getRemaining())
+        {
+            _selfTransition = ((int)newState == AnimatorCommon.GetState(_animator));
+            AnimatorCommon.SetState(_animator, (int)newState);
+        }
+        else
+        {
+            _selfTransition = false;
+            AnimatorCommon.SetState(_animator, (int)PlayerStateEnum.TestIdle);
+        }
+        _stamina.subtract(cost); // always remove stamina, even if won't transition
 	}
+
+    protected void RechargeStamina()
+    {
+        if ((_staminaRechargeTime -= Time.deltaTime) <= 0f)
+        {
+            _staminaRechargeTime = Constants.PLAYER_STAMINA_CHARGE_TIME;
+            _stamina.add(1);
+        }
+    }
 
     protected void IdleIfFinished()
     {

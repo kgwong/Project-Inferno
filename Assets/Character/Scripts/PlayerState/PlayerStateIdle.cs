@@ -10,15 +10,29 @@ class PlayerStateIdle : PlayerState
 
     protected override void HandleInput(HashSet<KeyPress> input)
     {
-        if (input.Contains(KeyPress.Roll))
+        // If a default case fell here, don't respond to input until done with animation
+        if (!PlayingNextAnimation())
         {
+            return;
+        }
+        float roll_direction = PlayerInput.PressedRoll();
+        if (roll_direction != 0)
+        {
+            if (roll_direction > 0)
+            {
+                AnimatorCommon.FaceRight(_animator);
+            }
+            else
+            {
+                AnimatorCommon.FaceLeft(_animator);
+            }
             ChangeState(PlayerStateEnum.TestRoll);
         }
         else if (input.Contains(KeyPress.Jump) && IsGrounded())
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
-        else if (input.Contains(KeyPress.MoveLeft))
+        else if (PlayerInput.PressedMoveLeft() || PlayerInput.HoldingMoveLeft()) //do we want to add joystick sensitivity?
         {
             // unflipped = facing right
             ChangeState(PlayerStateEnum.TestMove);
@@ -30,8 +44,16 @@ class PlayerStateIdle : PlayerState
             ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceRight(_animator);
         }
-        else if (input.Contains(KeyPress.MidAttack))
+        else if (PlayerInput.PressedLowAttack())
         {
+            ChangeState(PlayerStateEnum.TestLowAttack);
+        }
+        else if(PlayerInput.PressedHighAttack())
+        {
+            ChangeState(PlayerStateEnum.TestHighAttack);
+        }
+        else if(PlayerInput.PressedMidAttack())
+		{
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
     }

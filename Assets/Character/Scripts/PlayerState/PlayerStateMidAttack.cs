@@ -11,7 +11,17 @@ class PlayerStateMidAttack : PlayerState
 
     protected override void HandleInput(HashSet<KeyPress> input)
     {
-		if (input.Contains(KeyPress.MidAttack))
+		if (PlayerInput.PressedLowAttack())
+        {
+            ChangeState(PlayerStateEnum.TestLowAttackCombo);
+        }
+
+        else if(PlayerInput.PressedHighAttack()) //S button
+        {
+            ChangeState(PlayerStateEnum.TestHighAttackCombo);
+        }
+        else if(PlayerInput.PressedMidAttack())
+	//	if (input.Contains(KeyPress.MidAttack))
         {
             ChangeState(PlayerStateEnum.TestMidAttackCombo);
         }

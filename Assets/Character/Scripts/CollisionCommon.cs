@@ -5,7 +5,7 @@ public static class CollisionCommon
 	public static bool IsGrounded(GameObject go)
 	{
 		float colliderDistToGround = GetActiveCollider(go).bounds.extents.y;
-		const float pad = .1f;
+		const float pad = .15f;
 		RaycastHit2D hit = Physics2D.Raycast(go.transform.position, Vector2.down, colliderDistToGround + pad);
 		return hit.collider != null;
 	}

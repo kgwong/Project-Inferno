@@ -11,7 +11,9 @@ class PlayerStateMove: PlayerState
 
     protected override void HandleInput(HashSet<KeyPress> input)
 	{
-        if (!CollisionCommon.IsGrounded(_player))
+        float roll_direction = PlayerInput.PressedRoll();
+        if (!CollisionCommon.IsGrounded(_go))
+        //if (!CollisionCommon.IsGrounded(_player))
         {
             ChangeState(PlayerStateEnum.TestAirborneMove);
         }
@@ -19,11 +21,29 @@ class PlayerStateMove: PlayerState
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
-		else if (input.Contains(KeyPress.Roll))
+        else if (roll_direction != 0)
+		//else if (input.Contains(KeyPress.Roll))
         {
+            if (roll_direction > 0)
+            {
+                AnimatorCommon.FaceRight(_animator);
+            }
+            else
+            {
+                AnimatorCommon.FaceLeft(_animator);
+            }
             ChangeState(PlayerStateEnum.TestRoll);
         }
-		else if (input.Contains(KeyPress.MidAttack))
+        else if (PlayerInput.PressedLowAttack())
+        {
+            ChangeState(PlayerStateEnum.TestLowAttack);
+        }
+        else if (PlayerInput.PressedHighAttack())
+        {
+            ChangeState(PlayerStateEnum.TestHighAttack);
+        }
+        else if(PlayerInput.PressedMidAttack())
+		//else if (input.Contains(KeyPress.MidAttack))
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
@@ -37,5 +57,10 @@ class PlayerStateMove: PlayerState
             ChangeState(PlayerStateEnum.TestMove);
 			AnimatorCommon.FaceLeft(_animator);
         }
+        else if (NoLongerMovingLeft() || NoLongerMovingRight()) 
+        {
+            ChangeState(PlayerStateEnum.TestIdle);
+        }
+
 	}
 }

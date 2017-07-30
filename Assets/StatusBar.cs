@@ -23,6 +23,14 @@ public class StatusBar : MonoBehaviour {
         current = max;
     }
 
+<<<<<<< HEAD
+=======
+    public void depleteStatus()
+    {
+        current = 0;
+    }
+
+>>>>>>> Paxton
     public void subtract(int amount)
     {
         if (current - amount >= 0)
@@ -31,7 +39,11 @@ public class StatusBar : MonoBehaviour {
         }
         else
         {
+<<<<<<< HEAD
             current = 0;
+=======
+            depleteStatus();
+>>>>>>> Paxton
             print("status depleted");
         }
     }

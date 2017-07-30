@@ -13,4 +13,21 @@ public class Stamina : StatusBar {
     {
 
     }
+<<<<<<< HEAD
+=======
+
+    public bool staminaAvailable(int cost)
+    {
+        int remainingStamina = getRemaining();
+        if (cost > remainingStamina)
+        {
+            depleteStatus();
+            print("attack stopped: lack of stamina");
+        }
+        return cost <= remainingStamina;
+    }
+
+
+
+>>>>>>> Paxton
 }

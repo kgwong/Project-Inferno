@@ -16,15 +16,19 @@ public class PlayerGUIUpdater : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        playerHealth = new Health(100);
-        playerStamina = new Stamina(100);
+        // lol
+        //playerHealth = new Health(100); 
+        //playerStamina = new Stamina(100);
+        //
+        playerHealth = GetComponent<Health>();
+        playerStamina = GetComponent<Stamina>();
       
     }
 	
 	
 	public void updateHealthBar ()
     {
-        print(playerHealth.percent());
+        //print(playerHealth.percent()); // spamming my output nty
         healthBar.fillAmount = (playerHealth.percent());
 	}
 
@@ -36,16 +40,21 @@ public class PlayerGUIUpdater : MonoBehaviour {
     //temporary code to test health subtract/add
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            playerHealth.add(5);
-            updateHealthBar();
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+        //    playerHealth.add(5);
+        //    updateHealthBar();
 
-        }
-        else if (Input.GetKeyDown(KeyCode.Z))
-        {
-            playerHealth.subtract(5);
-            updateHealthBar();
-        }
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Z))
+        //{
+        //    playerHealth.subtract(5);
+        //    updateHealthBar();
+        //}
+        
+        // sync with changes to the bars
+
+        updateHealthBar();
+        updateStaminaBar();
     }
 }

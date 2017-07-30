@@ -4,12 +4,12 @@ using System.Collections;
 public class StatusBar : MonoBehaviour {
 
     private int current;
-    private int max;
+    public int max;
 
     public StatusBar()
     {
-
     }
+
     // Use this for initialization
     public StatusBar(int maxed)
     {

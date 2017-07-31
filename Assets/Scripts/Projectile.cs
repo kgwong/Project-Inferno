@@ -7,14 +7,10 @@ public class Projectile : MonoBehaviour {
     public float speed = 15f;
 
     private Rigidbody2D self;
-    private GameObject player;
 
 	// Use this for initialization
 	void Start () {
-        player = GameObject.FindGameObjectWithTag("Player");
         self = gameObject.GetComponent<Rigidbody2D>();
-        //Physics2D.IgnoreCollision(gameObject.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>());
-
     }
 
     // Update is called once per frame

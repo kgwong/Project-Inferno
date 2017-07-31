@@ -11,8 +11,10 @@ public class FollowingEnemyController : MonoBehaviour {
     private float distance;
     private Rigidbody2D projectile;
     private bool attackWait = false;
+    // -1 is left
     private int facing_direction = -1;
     private float waitTimer = 0f;
+    private float timeToWait = 0.8f;
 
     // Use this for initialization
     void Start() {
@@ -24,7 +26,7 @@ public class FollowingEnemyController : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-        if (attackWait == true)
+        if (attackWait)
         {
             waitTimer += Time.deltaTime;
         }
@@ -38,13 +40,13 @@ public class FollowingEnemyController : MonoBehaviour {
 	void FixedUpdate ()
     {
         distance = transform.position.x - player.transform.position.x;
-        // if player is close enough to follow and enemy can attack
-        if ((distance < 10 & distance > -10) & attackWait == false)
+        float enemyX = transform.position.x;
+        float playerX = player.transform.position.x;
+
+        if ((distance < 10 && distance > -10) & !attackWait)
         {
-            // if enemy is within attacking range
-            if (distance < 3 & distance > -3)
+            if (distance < 3 && distance > -3)
             {
-                print("attack");
                 // stop in place to attack
                 self.velocity = new Vector2(0, 0);
                 // some code here to attack
@@ -52,7 +54,8 @@ public class FollowingEnemyController : MonoBehaviour {
             }
             else
             {
-                if (transform.position.x < player.transform.position.x & transform.localScale.x < 0 || transform.position.x > player.transform.position.x & transform.localScale.x > 0)
+                // if enemy is to the left/right of player and facing the opposite direction, turn around
+                if (enemyX < playerX && facing_direction == -1 || enemyX > playerX && facing_direction == 1)
                 {
                     facing_direction = -facing_direction;
                     transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
@@ -63,11 +66,12 @@ public class FollowingEnemyController : MonoBehaviour {
         }
 
         // if enemy can't attack but is in range to follow
-        else if ((distance < 10 & distance > -10) & attackWait == true)
+        else if ((distance < 10 & distance > -10) && attackWait)
         {
-            if (waitTimer > 0.8f)
+            if (waitTimer > timeToWait)
             {
-                if (transform.position.x < player.transform.position.x & transform.localScale.x < 0 || transform.position.x > player.transform.position.x & transform.localScale.x > 0)
+                // same as line 55 above begin following player
+                if (enemyX < playerX && facing_direction == -1 || enemyX > playerX && facing_direction == 1)
                 {
                     facing_direction = -facing_direction;
                     transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
@@ -77,11 +81,6 @@ public class FollowingEnemyController : MonoBehaviour {
 
                 waitTimer = 0f;
                 attackWait = false;
-            }
-
-            else
-            {
-                print("wait");
             }
         }
 

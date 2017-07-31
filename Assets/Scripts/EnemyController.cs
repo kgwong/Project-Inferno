@@ -10,13 +10,16 @@ public class EnemyController : MonoBehaviour {
 
     private Rigidbody2D enemyBody;
     private bool knockback = false;
+    // -1 is left
     private float facing_direction = -1;
     private float knockback_timer = 0f;
     private float waitTimer = 0f;
     private bool attackWait = false;
+    private float waitTime = 0.7f;
+    private float knockbackTime = 0.2f;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         enemyBody = gameObject.GetComponent<Rigidbody2D>();
 
@@ -24,11 +27,12 @@ public class EnemyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (knockback == true)
+        if (knockback)
         {
             knockback_timer += Time.deltaTime;
         }
-        if (attackWait == true)
+
+        if (attackWait)
         {
             waitTimer += Time.deltaTime;
         }
@@ -37,7 +41,7 @@ public class EnemyController : MonoBehaviour {
     void FixedUpdate()
     {
         // enemy starts to move at normal speed again
-        if (knockback_timer > 0.2f & knockback == true)
+        if (knockback_timer > knockbackTime && knockback)
         {
             enemyBody.velocity = new Vector2(facing_direction * speed, 0);
             knockback = false;
@@ -46,18 +50,18 @@ public class EnemyController : MonoBehaviour {
         }
 
         // add force to knock enemy back and up a little if knockback == true
-        if (knockback == true)
+        if (knockback)
         {
             enemyBody.AddForce(new Vector2(0.5f * -facing_direction, 7.5f), ForceMode2D.Impulse);
         }
 
-        // 
         else
         {
-            if (attackWait == true)
+            if (attackWait)
             {
-                if (waitTimer > 0.7f)
+                if (waitTimer > waitTime)
                 {
+                    // enemy can begin moving and attacking
                     attackWait = false;
                     waitTimer = 0f;
                     enemyBody.velocity = new Vector2(facing_direction * speed, 0);
@@ -88,8 +92,10 @@ public class EnemyController : MonoBehaviour {
 
         else if (col.gameObject.tag == "Wall")
         {
-            if((col.gameObject.transform.position.x > transform.position.x  & facing_direction == 1)|| (col.gameObject.transform.position.x < transform.position.x & facing_direction == -1))
+            // if enemy hits wall on its right/left and is facing the same direction
+            if((col.gameObject.transform.position.x > transform.position.x  & facing_direction == 1) || (col.gameObject.transform.position.x < transform.position.x & facing_direction == -1))
             {
+                // turn it around
                 facing_direction = -facing_direction;
                 transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
             }

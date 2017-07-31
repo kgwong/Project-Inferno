@@ -9,24 +9,20 @@ public class ShootingEnemy : MonoBehaviour {
     public Transform firingPosition;
 
     private GameObject player;
-    //private Rigidbody2D self;
-    private float distance;
-    private bool knockback;
     private float waitTimer = 0f;
     private bool attackWait = false;
+    private float waitTime = 0.8f;
     
     // Use this for initialization
     void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        transform.GetChild(0);
-        //self = gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update ()
     {
-        if (attackWait == true)
+        if (attackWait)
         {
             waitTimer += Time.deltaTime;
         }
@@ -34,15 +30,15 @@ public class ShootingEnemy : MonoBehaviour {
 
     void FixedUpdate()
     {
-        distance = transform.position.x - player.transform.position.x;
+        float distance = transform.position.x - player.transform.position.x;
 
-        if (distance < 15 & attackWait == false)
+        if (distance < 15 & !attackWait)
         {
             Instantiate(bullet, firingPosition.position, firingPosition.rotation);
             attackWait = true;
         }
 
-        else if (distance < 15 & attackWait == true & waitTimer > 0.8f)
+        else if (distance < 15 & attackWait & waitTimer > waitTime)
         {
             attackWait = false;
             waitTimer = 0f;

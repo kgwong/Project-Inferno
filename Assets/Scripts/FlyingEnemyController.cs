@@ -8,12 +8,12 @@ public class FlyingEnemyController : MonoBehaviour {
 
     private GameObject player;
     private Rigidbody2D self;
-    private float distance;
     private float height;
-    private bool attackEnable = true;
     private bool attackWait = false;
     private float waitTimer = 0f;
+    // -1 is left
     private int facing_direction = -1;
+    private float waitTime = 1;
 
     // Use this for initialization
     void Start () {
@@ -34,12 +34,11 @@ public class FlyingEnemyController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        distance = transform.position.x - player.transform.position.x;
+        float distance = transform.position.x - player.transform.position.x;
 
-        if (attackWait == true & transform.position.y >= height)
+        if (attackWait && transform.position.y >= height)
         {
-            print(0);
-            if (waitTimer > 1)
+            if (waitTimer > waitTime)
             {
                 attackWait = false;
                 waitTimer = 0f;
@@ -50,15 +49,13 @@ public class FlyingEnemyController : MonoBehaviour {
             }
         }
 
-        else if (attackWait == false & (distance < 3 & distance > -3))
+        else if (!attackWait && (distance < 3 && distance > -3))
         {
-            print(1);
             self.velocity = new Vector2(speed * facing_direction, -15);
         }
 
-        else if (attackWait == false & (distance > 3 || distance < -3) & transform.position.y >= height)
+        else if (!attackWait && (distance > 3 || distance < -3) && transform.position.y >= height)
         {
-            print(11);
             self.velocity = new Vector2(speed * facing_direction, 0);
         }
     }

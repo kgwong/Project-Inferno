@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
     public float damage = 10f;
     public float speed = 5f;
 
-    private float facingDirection = 1;
+    //private float facingDirection = 1;
     private Rigidbody2D playerBody;
     private bool knockback = false;
     private float knockback_timer = 0f;

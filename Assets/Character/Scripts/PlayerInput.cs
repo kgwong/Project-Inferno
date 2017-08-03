@@ -34,4 +34,9 @@ public static class PlayerInput
     {
        return Input.GetKey(KeyCode.RightArrow);
     }    
+
+    public static bool PressedConsumable()
+    {
+        return Input.GetKey(KeyCode.W);
+    }
 }

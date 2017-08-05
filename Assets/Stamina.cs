@@ -11,7 +11,7 @@ public class Stamina : StatusBar {
 
     public Stamina(int maxStamina) : base (maxStamina)
     {
-
+   
     }
 
     public bool staminaAvailable(int cost)
@@ -23,6 +23,24 @@ public class Stamina : StatusBar {
             print("attack stopped: lack of stamina");
         }
         return cost <= remainingStamina;
+    }
+
+    new public void subtract(int amount)
+    {
+        if (current - amount > 0)
+        {
+            current -= amount;
+        }
+        else
+        {
+            depleteStatus();
+        }
+    }
+
+    new public void depleteStatus()
+    {
+        current = 0;
+        //there will be a cooldown before stamina recovers.
     }
 
 

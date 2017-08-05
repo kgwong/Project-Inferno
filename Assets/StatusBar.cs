@@ -3,7 +3,7 @@ using System.Collections;
 
 public class StatusBar : MonoBehaviour {
 
-    private int current;
+    public int current;
     private int max;
 
     public StatusBar()
@@ -23,22 +23,14 @@ public class StatusBar : MonoBehaviour {
         current = max;
     }
 
+    //turned depleteStatus and subtract into virtual functions.
+    //Health and stamina have different effects when depleted.
     public void depleteStatus()
     {
-        current = 0;
-        print("status depleted");
     }
 
     public void subtract(int amount)
     {
-        if (current - amount >= 0)
-        {
-            current -= amount;
-        }
-        else
-        {
-            depleteStatus();       
-        }
     }
 
     public void add(int amount)

@@ -32,8 +32,19 @@ public static class AnimatorCommon
         animator.SetInteger("state", val);
     }
 
+    public static void RestartCurrentAnimation(Animator animator)
+    {
+        string name = ((PlayerStateEnum)GetState(animator)).ToString();
+        animator.Play(name, -1, 0f);
+    }
+
 	public static int GetState(Animator animator)
     {
         return animator.GetInteger("state");
+    }
+
+    public static float NormalizedTime(Animator animator)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
 }

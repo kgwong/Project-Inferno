@@ -7,6 +7,6 @@ public class TestPlay : MonoBehaviour {
     public void playGame()
     {
         print("loading level");
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }

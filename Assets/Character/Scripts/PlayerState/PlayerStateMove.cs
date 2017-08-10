@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 class PlayerStateMove: PlayerState
 {
@@ -8,47 +9,33 @@ class PlayerStateMove: PlayerState
 
 	}
 
-	public override void Update()
+    protected override void HandleInput(HashSet<KeyPress> input)
 	{
-        if (!CollisionCommon.IsGrounded(_go))
+        if (!CollisionCommon.IsGrounded(_player))
         {
             ChangeState(PlayerStateEnum.TestAirborneMove);
         }
-        else if (PlayerInput.PressedJump())
+        else if (input.Contains(KeyPress.Jump))
         {
             ChangeState(PlayerStateEnum.TestJump);
         }
-		else if (PlayerInput.PressedRoll())
+		else if (input.Contains(KeyPress.Roll))
         {
             ChangeState(PlayerStateEnum.TestRoll);
         }
-		else if (PlayerInput.PressedMidAttack())
+		else if (input.Contains(KeyPress.MidAttack))
         {
             ChangeState(PlayerStateEnum.TestMidAttack);
         }
-        else if (PlayerInput.HoldingMoveRight())
+        else if (input.Contains(KeyPress.MoveRight))
         {
+            ChangeState(PlayerStateEnum.TestMove);
             AnimatorCommon.FaceRight(_animator);
         }
-        else if (PlayerInput.HoldingMoveLeft())
+        else if (input.Contains(KeyPress.MoveLeft))
         {
+            ChangeState(PlayerStateEnum.TestMove);
 			AnimatorCommon.FaceLeft(_animator);
         }
-        else if (NoLongerMovingLeft() || NoLongerMovingRight()) 
-        {
-            ChangeState(PlayerStateEnum.TestIdle);
-        }
 	}
-
-    private bool NoLongerMovingLeft()
-    {
-        bool facingRight = AnimatorCommon.FacingRight(_animator);
-        return !facingRight && !PlayerInput.HoldingMoveLeft();
-    }
-
-    private bool NoLongerMovingRight()
-    {
-        bool facingRight = AnimatorCommon.FacingRight(_animator);
-        return facingRight && !PlayerInput.HoldingMoveRight();
-    }
 }

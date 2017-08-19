@@ -4,7 +4,7 @@ using System.Collections;
 public class ConsumableContainer : MonoBehaviour {
 
     Consumable c;
-    private double lastConsume;
+    private double lastConsume = 0;
     private int count;
 	
 	// Update is called once per frame

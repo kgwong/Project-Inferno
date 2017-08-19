@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public abstract class Consumable : MonoBehaviour {
 
     public double duration;
@@ -8,5 +9,4 @@ public abstract class Consumable : MonoBehaviour {
     private double interval;
 
     public abstract void consume();
-
 }

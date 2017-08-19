@@ -3,16 +3,15 @@ using System.Collections;
 
 public class Health : StatusBar {
 
-    PlayerStates playerStates;
 
     public Health()
     {
 
     }
 
-    public Health(int maxHealth, PlayerStates playrStates) : base(maxHealth)
+    public Health(int maxHealth, PlayerStatus playrStatus) : base(maxHealth, playrStatus)
     {
-        playerStates = playrStates;
+        playerStatus = playrStatus;
     }
 
     new public void subtract(int amount)
@@ -30,7 +29,7 @@ public class Health : StatusBar {
     new public void depleteStatus()
     {
         current = 0;
-        playerStates.onDeath();
+        playerStatus.onDeath();
         print("health depleted, dead");
     }
 }

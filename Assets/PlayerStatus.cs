@@ -1,23 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerStates : MonoBehaviour {
+public class PlayerStatus : MonoBehaviour {
 
     Health playerHealth;
     Stamina playerStamina;
     LevelLoader levelLoader;
-    PlayerGUIUpdater guiUpdater;
+    public PlayerGUIUpdater guiUpdater;
     
 	// will have a variable for checkpoint. Access LevelLoader to load levels from here.
 	void Start ()
     {
         playerHealth = new Health(100, this);
-        playerStamina = new Stamina(100);
+        playerStamina = new Stamina(100, this);
 
         levelLoader = GetComponent<LevelLoader>();
         guiUpdater = GetComponent<PlayerGUIUpdater>();
-
-
 	}
 
     public void onDeath ()
@@ -34,13 +32,16 @@ public class PlayerStates : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.X))
         {
             playerHealth.add(5);
-            guiUpdater.updateHealthBar(playerHealth.percent());
+            playerStamina.add(5);
 
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
             playerHealth.subtract(5);
-            guiUpdater.updateHealthBar(playerHealth.percent());
+            playerStamina.subtract(5);
         }
+        guiUpdater.updateHealthBar(playerHealth.percent());
+        guiUpdater.updateStaminaBar(playerStamina.percent());
+        playerStamina.updateStamina();
     }
 }

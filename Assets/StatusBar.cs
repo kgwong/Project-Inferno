@@ -3,19 +3,21 @@ using System.Collections;
 
 public class StatusBar : MonoBehaviour {
 
-    public int current;
-    private int max;
+    public PlayerStatus playerStatus;
+    public int current = 100;
+    private int max = 100;
 
     public StatusBar()
     {
 
     }
     // Use this for initialization
-    public StatusBar(int maxed)
+    public StatusBar(int maxed, PlayerStatus playrStatus)
     {
         max = maxed;
         current = max;
-	}
+        playerStatus = playrStatus;
+    }
 	
 	// Update is called once per frame
     public void reset()

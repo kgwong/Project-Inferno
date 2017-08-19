@@ -3,10 +3,6 @@ using System.Collections;
 
 public class Stamina : StatusBar {
 
-    
-    int recoveryRate = 1;
-    float timeBetweenRecoveries = 0.25f;
-    float lastRecoveryTime = 0f;
 
     // Use StatusBar constructor to initialize.
     public Stamina()
@@ -46,31 +42,6 @@ public class Stamina : StatusBar {
     {
         current = 0;
         //there will be a cooldown before stamina recovers (not implemented yet).
-    }
-
-    public void setRecoveryRate(int recoveryAmount, float timeDelta)
-    {
-        recoveryRate = recoveryAmount;
-        timeBetweenRecoveries = timeDelta;
-    }
-
-    public bool isRecovering()
-    {
-        return recoveryRate > 0 && timeBetweenRecoveries >= 0.1f && getRemaining() < getMax();
-    }
-
-    public void updateStamina()
-    {
-        if (isRecovering())
-        {
-            if (Time.time - lastRecoveryTime > timeBetweenRecoveries)
-            {
-                lastRecoveryTime = Time.time;
-                add(recoveryRate);
-                print(getRemaining());
-            }
-        }
-
     }
 
 

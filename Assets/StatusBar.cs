@@ -7,6 +7,10 @@ public class StatusBar : MonoBehaviour {
     public int current = 100;
     private int max = 100;
 
+    int recoveryRate = 0;
+    float timeBetweenRecoveries = 0.0f;
+    float lastRecoveryTime = 0f;
+
     public StatusBar()
     {
 
@@ -62,6 +66,30 @@ public class StatusBar : MonoBehaviour {
     {
         //between 0 and 1
         return (float)current / max;
+    }
+
+    public void setRecoveryRate(int recoveryAmount, float timeDelta)
+    {
+        recoveryRate = recoveryAmount;
+        timeBetweenRecoveries = timeDelta;
+    }
+
+    public bool isRecovering()
+    {
+        return recoveryRate > 0 && timeBetweenRecoveries >= 0.1f && getRemaining() < getMax();
+    }
+
+    public void updateStatus()
+    {
+        if (isRecovering())
+        {
+            if (Time.time - lastRecoveryTime > timeBetweenRecoveries)
+            {
+                lastRecoveryTime = Time.time;
+                add(recoveryRate);  
+            }
+        }
+
     }
 
 }

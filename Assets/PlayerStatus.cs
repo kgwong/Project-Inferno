@@ -6,13 +6,17 @@ public class PlayerStatus : MonoBehaviour {
     Health playerHealth;
     Stamina playerStamina;
     LevelLoader levelLoader;
-    public PlayerGUIUpdater guiUpdater;
+    PlayerGUIUpdater guiUpdater;
     
 	// will have a variable for checkpoint. Access LevelLoader to load levels from here.
 	void Start ()
     {
         playerHealth = new Health(100, this);
         playerStamina = new Stamina(100, this);
+
+        //set these values as you like, make sure to keep second parameter above 0.1f or will not update
+        playerHealth.setRecoveryRate(1, 0.25f);
+        playerStamina.setRecoveryRate(1, 0.25f);
 
         levelLoader = GetComponent<LevelLoader>();
         guiUpdater = GetComponent<PlayerGUIUpdater>();
@@ -42,6 +46,7 @@ public class PlayerStatus : MonoBehaviour {
         }
         guiUpdater.updateHealthBar(playerHealth.percent());
         guiUpdater.updateStaminaBar(playerStamina.percent());
-        playerStamina.updateStamina();
+        playerStamina.updateStatus();
+        playerHealth.updateStatus();
     }
 }

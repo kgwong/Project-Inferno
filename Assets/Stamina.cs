@@ -3,15 +3,16 @@ using System.Collections;
 
 public class Stamina : StatusBar {
 
-	// Use StatusBar constructor to initialize.
+
+    // Use StatusBar constructor to initialize.
     public Stamina()
     {
 
     }
 
-    public Stamina(int maxStamina) : base (maxStamina)
+    public Stamina(int maxStamina, PlayerStatus playerStatus) : base (maxStamina, playerStatus)
     {
-   
+        this.playerStatus = playerStatus;
     }
 
     public bool staminaAvailable(int cost)
@@ -40,9 +41,8 @@ public class Stamina : StatusBar {
     new public void depleteStatus()
     {
         current = 0;
-        //there will be a cooldown before stamina recovers.
+        //there will be a cooldown before stamina recovers (not implemented yet).
     }
-
 
 
 }

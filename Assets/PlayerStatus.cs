@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerStates : MonoBehaviour {
+public class PlayerStatus : MonoBehaviour {
 
     Health playerHealth;
     Stamina playerStamina;
@@ -12,12 +12,14 @@ public class PlayerStates : MonoBehaviour {
 	void Start ()
     {
         playerHealth = new Health(100, this);
-        playerStamina = new Stamina(100);
+        playerStamina = new Stamina(100, this);
+
+        //set these values as you like, make sure to keep second parameter above 0.1f or will not update
+        playerHealth.setRecoveryRate(1, 0.25f); //(recovery amount, amount of time between recovery)
+        playerStamina.setRecoveryRate(1, 0.25f);
 
         levelLoader = GetComponent<LevelLoader>();
         guiUpdater = GetComponent<PlayerGUIUpdater>();
-
-
 	}
 
     public void onDeath ()
@@ -34,13 +36,17 @@ public class PlayerStates : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.X))
         {
             playerHealth.add(5);
-            guiUpdater.updateHealthBar(playerHealth.percent());
+            playerStamina.add(5);
 
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
             playerHealth.subtract(5);
-            guiUpdater.updateHealthBar(playerHealth.percent());
+            playerStamina.subtract(5);
         }
+        guiUpdater.updateHealthBar(playerHealth.percent());
+        guiUpdater.updateStaminaBar(playerStamina.percent());
+        playerStamina.updateStatus();
+        playerHealth.updateStatus();
     }
 }

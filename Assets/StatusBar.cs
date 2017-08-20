@@ -4,7 +4,7 @@ using System.Collections;
 public class StatusBar : MonoBehaviour {
 
     public PlayerStatus playerStatus;
-    public int current = 100;
+    protected int current = 100;
     private int max = 100;
 
     int recoveryRate = 0;
@@ -16,11 +16,11 @@ public class StatusBar : MonoBehaviour {
 
     }
     // Use this for initialization
-    public StatusBar(int maxed, PlayerStatus playrStatus)
+    public StatusBar(int maxed, PlayerStatus playerStatus)
     {
         max = maxed;
         current = max;
-        playerStatus = playrStatus;
+        this.playerStatus = playerStatus;
     }
 	
 	// Update is called once per frame

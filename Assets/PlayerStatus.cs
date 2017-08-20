@@ -15,7 +15,7 @@ public class PlayerStatus : MonoBehaviour {
         playerStamina = new Stamina(100, this);
 
         //set these values as you like, make sure to keep second parameter above 0.1f or will not update
-        playerHealth.setRecoveryRate(1, 0.25f);
+        playerHealth.setRecoveryRate(1, 0.25f); //(recovery amount, amount of time between recovery)
         playerStamina.setRecoveryRate(1, 0.25f);
 
         levelLoader = GetComponent<LevelLoader>();

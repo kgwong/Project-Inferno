@@ -9,9 +9,9 @@ public class Health : StatusBar {
 
     }
 
-    public Health(int maxHealth, PlayerStatus playrStatus) : base(maxHealth, playrStatus)
+    public Health(int maxHealth, PlayerStatus playerStatus) : base(maxHealth, playerStatus)
     {
-        playerStatus = playrStatus;
+        this.playerStatus = playerStatus;
     }
 
     new public void subtract(int amount)

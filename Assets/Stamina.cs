@@ -10,9 +10,9 @@ public class Stamina : StatusBar {
 
     }
 
-    public Stamina(int maxStamina, PlayerStatus playrStatus) : base (maxStamina, playrStatus)
+    public Stamina(int maxStamina, PlayerStatus playerStatus) : base (maxStamina, playerStatus)
     {
-        playerStatus = playrStatus;
+        this.playerStatus = playerStatus;
     }
 
     public bool staminaAvailable(int cost)

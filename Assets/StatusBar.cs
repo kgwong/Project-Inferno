@@ -5,10 +5,12 @@ public class StatusBar : MonoBehaviour {
 
     public PlayerStatus playerStatus;
     protected int current = 100;
-    private int max = 100;
+    protected int max = 100;
 
-    int recoveryRate = 0;
-    float timeBetweenRecoveries = 0.0f;
+    
+    int recoveryAmount = 0;
+    float minSecondsBetweenRecoveries = 0.1f;
+    float secondsBetweenRecoveries = 0.0f;
     float lastRecoveryTime = 0f;
 
     public StatusBar()
@@ -68,25 +70,33 @@ public class StatusBar : MonoBehaviour {
         return (float)current / max;
     }
 
-    public void setRecoveryRate(int recoveryAmount, float timeDelta)
+    public void setRecoveryRate(int recoveryAmount, float timeDeltaSeconds)
     {
-        recoveryRate = recoveryAmount;
-        timeBetweenRecoveries = timeDelta;
+        if (recoveryAmount < minSecondsBetweenRecoveries)
+        {
+            secondsBetweenRecoveries = minSecondsBetweenRecoveries;
+        }
+        else
+        {
+            this.recoveryAmount = recoveryAmount;
+            secondsBetweenRecoveries = timeDeltaSeconds;
+        }
     }
 
     public bool isRecovering()
     {
-        return recoveryRate > 0 && timeBetweenRecoveries >= 0.1f && getRemaining() < getMax();
+        return recoveryAmount > 0  && getRemaining() < getMax();
     }
 
     public void updateStatus()
     {
+        
         if (isRecovering())
         {
-            if (Time.time - lastRecoveryTime > timeBetweenRecoveries)
+            if (Time.time - lastRecoveryTime > secondsBetweenRecoveries)
             {
                 lastRecoveryTime = Time.time;
-                add(recoveryRate);  
+                add(recoveryAmount);  
             }
         }
 

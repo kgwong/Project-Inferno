@@ -9,9 +9,9 @@ public class Health : StatusBar {
 
     }
 
-    public Health(int maxHealth, PlayerStatus playerStatus) : base(maxHealth, playerStatus)
+    public Health(int maxHealth, Status status) : base(maxHealth, status)
     {
-        this.playerStatus = playerStatus;
+        this.status = status;
     }
 
     new public void subtract(int amount)
@@ -29,7 +29,7 @@ public class Health : StatusBar {
     new public void depleteStatus()
     {
         current = 0;
-        playerStatus.onDeath();
+        status.onDeath();
         print("health depleted, dead");
     }
 }

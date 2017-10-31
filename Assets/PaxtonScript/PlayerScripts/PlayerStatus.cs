@@ -1,28 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerStatus : MonoBehaviour {
+public class PlayerStatus : Status {
 
     Health playerHealth;
     Stamina playerStamina;
     LevelLoader levelLoader;
-    PlayerGUIUpdater guiUpdater;
+    PlayerGUIUpdater playerGuiUpdater;
+    DamageManager incomingDamage;
     
 	// will have a variable for checkpoint. Access LevelLoader to load levels from here.
 	void Start ()
     {
         playerHealth = new Health(100, this);
         playerStamina = new Stamina(100, this);
+        incomingDamage = new DamageManager(playerHealth); 
 
         //set these values as you like, make sure to keep second parameter above 0.1f or will not update
         playerHealth.setRecoveryRate(1, 0.25f); //(recovery amount, amount of time between recovery)
         playerStamina.setRecoveryRate(1, 0.25f);
 
         levelLoader = GetComponent<LevelLoader>();
-        guiUpdater = GetComponent<PlayerGUIUpdater>();
+        playerGuiUpdater = GetComponent<PlayerGUIUpdater>();
 	}
 
-    public void onDeath ()
+    new public void onDeath ()
     {
         //respawn, reset hp/stamina, etc.
         levelLoader.loadDeathScreen();
@@ -37,15 +39,14 @@ public class PlayerStatus : MonoBehaviour {
         {
             playerHealth.add(5);
             playerStamina.add(5);
-
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
             playerHealth.subtract(5);
             playerStamina.subtract(5);
         }
-        guiUpdater.updateHealthBar(playerHealth.percent());
-        guiUpdater.updateStaminaBar(playerStamina.percent());
+        playerGuiUpdater.updateHealthBar(playerHealth.percent());
+        playerGuiUpdater.updateStaminaBar(playerStamina.percent());
         playerStamina.updateStatus();
         playerHealth.updateStatus();
     }

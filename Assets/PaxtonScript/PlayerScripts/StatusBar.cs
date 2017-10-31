@@ -3,7 +3,7 @@ using System.Collections;
 
 public class StatusBar : MonoBehaviour {
 
-    public PlayerStatus playerStatus;
+    public Status status;
     protected int current = 100;
     protected int max = 100;
 
@@ -18,11 +18,11 @@ public class StatusBar : MonoBehaviour {
 
     }
     // Use this for initialization
-    public StatusBar(int maxed, PlayerStatus playerStatus)
+    public StatusBar(int maxed, Status status)
     {
         max = maxed;
         current = max;
-        this.playerStatus = playerStatus;
+        this.status = status;
     }
 	
 	// Update is called once per frame
